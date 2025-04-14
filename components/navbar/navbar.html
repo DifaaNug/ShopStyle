@@ -20,7 +20,7 @@
         <div class="navbar-actions">
             <button class="cart-button">
                 <i class="fas fa-shopping-cart"></i>
-                <span class="cart-count">4</span>
+                <span class="cart-count">0</span>
             </button>
             <a href="../pages/login.html" class="sign-in-button nav-link">Sign In</a>
             <button class="menu-button">
@@ -32,23 +32,3 @@
 
 <!-- Add Font Awesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const token = localStorage.getItem('accessToken');
-    const signInButton = document.querySelector('.sign-in-button');
-
-    if (token) {
-      signInButton.textContent = 'Logout';
-      signInButton.addEventListener('click', () => {
-        localStorage.removeItem('accessToken');
-        window.location.reload();
-      });
-    } else {
-      signInButton.textContent = 'Sign In';
-      signInButton.addEventListener('click', () => {
-        window.location.href = '../pages/login.html';
-      });
-    }
-  });
-</script>
