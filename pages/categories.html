@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../styles/cart.css">
     <link rel="stylesheet" href="../styles/categories.css">
     <link rel="stylesheet" href="../styles/footer.css">
+    <link rel="stylesheet" href="../styles/products.css">
 </head>
 <body>
     <div id="navbar-container"></div>
@@ -27,7 +28,7 @@
                 <div class="category-info">
                     <h2>Women's Fashion</h2>
                     <p>Dresses, Tops, Skirts & more</p>
-                    <a href="#womens" class="category-btn">
+                    <a href="womens-fashion.html" class="category-btn">
                         Explore Collection <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
@@ -38,7 +39,7 @@
                 <div class="category-info">
                     <h2>Men's Fashion</h2>
                     <p>Suits, Shirts, Pants & more</p>
-                    <a href="#mens" class="category-btn">
+                    <a href="mens-fashion.html" class="category-btn">
                         Explore Collection <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
@@ -49,7 +50,7 @@
                 <div class="category-info">
                     <h2>Bags & Accessories</h2>
                     <p>Handbags, Wallets, Jewelry & more</p>
-                    <a href="#accessories" class="category-btn">
+                    <a href="accessories.html" class="category-btn">
                         Explore Collection <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
@@ -60,17 +61,100 @@
                 <div class="category-info">
                     <h2>Footwear</h2>
                     <p>Sneakers, Heels, Boots & more</p>
-                    <a href="#footwear" class="category-btn">
+                    <a href="footwear.html" class="category-btn">
                         Explore Collection <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
         </div>
 
+        <!-- Featured Items section -->
         <section class="category-featured">
             <h3>Featured Items</h3>
             <div class="product-grid">
-                <!-- Featured products will be dynamically loaded here -->
+                <div class="product-card">
+                    <div class="product-badge">Featured</div>
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?w=800" alt="Luxury Timepiece">
+                        <div class="product-actions">
+                            <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                            <button class="quickview-btn" aria-label="Quick view"><i class="far fa-eye"></i></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Luxury Timepiece</h3>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(5.0)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="price">$899.99</span>
+                        </div>
+                        <button class="add-to-cart" data-product='{"id":501,"name":"Luxury Timepiece","price":899.99,"image":"https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?w=800"}'>
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-badge">Limited</div>
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=800" alt="Premium Sunglasses">
+                        <div class="product-actions">
+                            <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                            <button class="quickview-btn" aria-label="Quick view"><i class="far fa-eye"></i></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Premium Sunglasses</h3>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(4.8)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="price">$299.99</span>
+                        </div>
+                        <button class="add-to-cart" data-product='{"id":502,"name":"Premium Sunglasses","price":299.99,"image":"https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=800"}'>
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-badge">New</div>
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800" alt="Cashmere Scarf">
+                        <div class="product-actions">
+                            <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                            <button class="quickview-btn" aria-label="Quick view"><i class="far fa-eye"></i></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Cashmere Scarf</h3>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>(4.2)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="price">$149.99</span>
+                        </div>
+                        <button class="add-to-cart" data-product='{"id":503,"name":"Cashmere Scarf","price":149.99,"image":"https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800"}'>
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
@@ -85,6 +169,11 @@
             .then(data => {
                 document.getElementById('navbar-container').innerHTML = data;
                 if (typeof initCart === 'function') initCart();
+                
+                // Load navbar.js script after navbar is loaded
+                const navbarScript = document.createElement('script');
+                navbarScript.src = '../scripts/navbar.js';
+                document.body.appendChild(navbarScript);
             });
 
         // Load footer
@@ -94,15 +183,15 @@
                 document.getElementById('footer-container').innerHTML = data;
             });
 
-        // Load featured products
+        // Initialize add to cart functionality
         document.addEventListener('DOMContentLoaded', function() {
-            const productGrid = document.querySelector('.product-grid');
-            if (productGrid) {
-                // Here you would typically fetch and display featured products
-                // For now, we'll leave it empty as it requires backend integration
-            }
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productData = JSON.parse(this.dataset.product);
+                    addToCart(productData);
+                });
+            });
         });
     </script>
 </body>
-</html> 
-</html> 
+</html>
