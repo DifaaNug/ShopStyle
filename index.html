@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShopStyle</title>
+    <title>ShopStyle - Premium Fashion Store</title>
     <!-- Add Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Favicon using Font Awesome shopping bag -->
@@ -16,40 +16,101 @@
     <link rel="stylesheet" href="styles/navbar.css">
     <link rel="stylesheet" href="styles/cart.css">
     <link rel="stylesheet" href="styles/footer.css">
+    <link rel="stylesheet" href="styles/product.css">
 </head>
 <body>
     <!-- Include the navbar component -->
     <div id="navbar-container"></div>
 
-    <!-- Main content will go here -->
-    <main>
-        <!-- Your content will be added here -->
-    </main>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Welcome to ShopStyle</h1>
+            <p>Discover premium fashion for every occasion</p>
+            <div class="hero-buttons">
+                <a href="pages/products.html" class="cta-button primary">Shop Now</a>
+                <a href="#about" class="cta-button secondary">Learn More</a>
+            </div>
+        </div>
+        <div class="hero-overlay"></div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-wrapper">
+                <div class="about-content">
+                    <h2>About Us</h2>
+                    <p class="about-description">ShopStyle is your premier destination for high-quality fashion items. We curate the finest selection of clothing, accessories, and more to help you express your unique style.</p>
+                    
+                    <div class="features-container">
+                        <div class="feature-item">
+                            <i class="fas fa-star feature-icon"></i>
+                            <h3 class="feature-title">Premium Quality</h3>
+                            <p class="feature-description">We source only the finest materials and work with trusted manufacturers.</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-heart feature-icon"></i>
+                            <h3 class="feature-title">Customer Care</h3>
+                            <p class="feature-description">Your satisfaction is our top priority. Our team is here to help you.</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-truck feature-icon"></i>
+                            <h3 class="feature-title">Fast Shipping</h3>
+                            <p class="feature-description">Quick and reliable delivery to your doorstep.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800" alt="Fashion Collection" class="main-image">
+                    <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800" alt="Fashion Style" class="secondary-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Ready to Elevate Your Style?</h2>
+            <p>Explore our collection of premium fashion items and discover your perfect look</p>
+            <a href="pages/products.html" class="cta-button">View Products</a>
+        </div>
+    </section>
 
     <!-- Include the footer component -->
     <div id="footer-container"></div>
 
+    <!-- Scripts -->
+    <script src="scripts/cart.js"></script>
+    <script src="scripts/slider.js"></script>
     <script>
         // Load and inject the navbar component
         fetch('components/navbar/navbar.html')
             .then(response => response.text())
-            .then(data => {
-                document.getElementById('navbar-container').innerHTML = data;
-                // Initialize theme and cart after navbar is loaded
-                if (typeof initTheme === 'function') initTheme();
-                if (typeof initCart === 'function') initCart();
-            })
-            .catch(error => console.error('Error loading navbar:', error));
+            .then(html => {
+                document.getElementById('navbar-container').innerHTML = html;
+                // Initialize cart after navbar is loaded
+                initCart();
+            });
 
         // Load and inject the footer component
         fetch('components/footer/footer.html')
             .then(response => response.text())
-            .then(data => {
-                document.getElementById('footer-container').innerHTML = data;
-            })
-            .catch(error => console.error('Error loading footer:', error));
+            .then(html => {
+                document.getElementById('footer-container').innerHTML = html;
+            });
+
+        // Add to cart functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', () => {
+                    const productData = JSON.parse(button.dataset.product);
+                    addToCart(productData);
+                });
+            });
+        });
     </script>
-    <script src="scripts/theme.js"></script>
-    <script src="scripts/cart.js"></script>
 </body>
 </html>
