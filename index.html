@@ -3,9 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produk Detail Page</title>
+    <title>ShopStyle</title>
+    <!-- Add Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Favicon using Font Awesome shopping bag -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><defs><linearGradient id='gradient' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%233498db'/><stop offset='100%' style='stop-color:%232980b9'/></linearGradient></defs><rect width='512' height='512' rx='96' fill='url(%23gradient)'/><g transform='translate(146,146) scale(0.43)'><path fill='white' d='M352 160v-32C352 57.42 294.579 0 224 0 153.42 0 96 57.42 96 128v32H0v272c0 44.183 35.817 80 80 80h288c44.183 0 80-35.817 80-80V160h-96zm-192-32c0-35.29 28.71-64 64-64s64 28.71 64 64v32H160v-32z'/></g></svg>">
+    <!-- Add Poppins font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/navbar.css">
+    <link rel="stylesheet" href="styles/cart.css">
+    <link rel="stylesheet" href="styles/footer.css">
 </head>
 <body>
-    
+    <!-- Include the navbar component -->
+    <div id="navbar-container"></div>
+
+    <!-- Main content will go here -->
+    <main>
+        <!-- Your content will be added here -->
+    </main>
+
+    <!-- Include the footer component -->
+    <div id="footer-container"></div>
+
+    <script>
+        // Load and inject the navbar component
+        fetch('components/navbar/navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-container').innerHTML = data;
+                // Initialize theme and cart after navbar is loaded
+                if (typeof initTheme === 'function') initTheme();
+                if (typeof initCart === 'function') initCart();
+            })
+            .catch(error => console.error('Error loading navbar:', error));
+
+        // Load and inject the footer component
+        fetch('components/footer/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading footer:', error));
+    </script>
+    <script src="scripts/theme.js"></script>
+    <script src="scripts/cart.js"></script>
 </body>
 </html>

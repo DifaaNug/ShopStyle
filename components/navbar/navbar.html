@@ -1,0 +1,58 @@
+<!-- Navbar Component -->
+<nav class="navbar">
+    <div class="navbar-brand">
+        <a href="/" class="site-name">
+            <span class="site-logo">
+                <i class="fas fa-shopping-bag"></i>
+            </span>
+            <span class="site-text">
+                <span class="site-text-main">ShopStyle</span>
+                <span class="site-text-sub">premium store</span>
+            </span>
+        </a>
+    </div>
+    <div class="navbar-right">
+        <div class="navbar-links">
+            <a href="#" class="nav-link">Products</a>
+            <a href="#" class="nav-link">Categories</a>
+            <a href="#" class="nav-link">About</a>
+        </div>
+        <div class="navbar-actions">
+            <button class="cart-button" aria-label="Shopping cart">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </button>
+            <button class="theme-toggle" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button class="nav-button">Sign In</button>
+        </div>
+    </div>
+</nav>
+
+<!-- Add Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<!-- Add dark mode toggle script -->
+<script>
+    const themeToggle = document.querySelector('.theme-toggle');
+    const moonIcon = themeToggle.querySelector('i');
+    
+    // Check for saved theme preference
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+    });
+
+    function updateThemeIcon(theme) {
+        moonIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    }
+</script> 
