@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - ShopStyle</title>
+    <!-- Add Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Add Poppins font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/navbar.css">
+    <link rel="stylesheet" href="../styles/cart.css">
+    <link rel="stylesheet" href="../styles/footer.css">
+    <link rel="stylesheet" href="../styles/products.css">
+</head>
+<body class="products-page">
+    <!-- Include the navbar component -->
+    <div id="navbar-container"></div>
+
+    <!-- Main content -->
+    <main>
+        <section class="page-header">
+            <h1>Our Products</h1>
+            <p>Discover our curated collection of premium fashion items</p>
+        </section>
+
+        <!-- Featured Products -->
+        <section class="products-section">
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-badge">New</div>
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800" alt="Premium Leather Jacket">
+                        <div class="product-actions">
+                            <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                            <button class="quickview-btn" aria-label="Quick view"><i class="far fa-eye"></i></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Premium Leather Jacket</h3>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(4.5)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="price">$299.99</span>
+                        </div>
+                        <button class="add-to-cart" data-product='{"id":1,"name":"Premium Leather Jacket","price":299.99,"image":"https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800"}'>
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800" alt="Designer Handbag">
+                        <div class="product-actions">
+                            <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                            <button class="quickview-btn" aria-label="Quick view"><i class="far fa-eye"></i></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Designer Handbag</h3>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>(4.0)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="price">$499.99</span>
+                        </div>
+                        <button class="add-to-cart" data-product='{"id":2,"name":"Designer Handbag","price":499.99,"image":"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800"}'>
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-badge">New</div>
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=800" alt="Luxury Watch">
+                        <div class="product-actions">
+                            <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                            <button class="quickview-btn" aria-label="Quick view"><i class="far fa-eye"></i></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Luxury Watch</h3>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(5.0)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="price">$999.99</span>
+                        </div>
+                        <button class="add-to-cart" data-product='{"id":3,"name":"Luxury Watch","price":999.99,"image":"https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=800"}'>
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include the footer component -->
+    <div id="footer-container"></div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="close-cart"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items">
+            <!-- Cart items will be dynamically added here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span class="total-amount">$0.00</span>
+            </div>
+            <button class="checkout-btn">Checkout</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../scripts/cart.js"></script>
+    <script>
+        // Load and inject the navbar component
+        fetch('../components/navbar/navbar.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('navbar-container').innerHTML = html;
+                // Initialize cart after navbar is loaded
+                initCart();
+            });
+
+        // Load and inject the footer component
+        fetch('../components/footer/footer.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('footer-container').innerHTML = html;
+            });
+
+        // Add to cart functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', () => {
+                    const productData = JSON.parse(button.dataset.product);
+                    addToCart(productData);
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
