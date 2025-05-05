@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories - ShopStyle</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/navbar.css">
+    <link rel="stylesheet" href="../styles/cart.css">
+    <link rel="stylesheet" href="../styles/categories.css">
+    <link rel="stylesheet" href="../styles/footer.css">
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <main class="categories-page">
+        <header class="page-header">
+            <h1>All Categories</h1>
+            <p>Explore our wide range of fashion collections</p>
+        </header>
+
+        <div class="categories-grid">
+            <div class="category-item">
+                <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=800" alt="Women's Fashion">
+                <div class="category-info">
+                    <h2>Women's Fashion</h2>
+                    <p>Dresses, Tops, Skirts & more</p>
+                    <a href="#womens" class="category-btn">
+                        Explore Collection <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="category-item">
+                <img src="https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?w=800" alt="Men's Fashion">
+                <div class="category-info">
+                    <h2>Men's Fashion</h2>
+                    <p>Suits, Shirts, Pants & more</p>
+                    <a href="#mens" class="category-btn">
+                        Explore Collection <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="category-item">
+                <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800" alt="Bags & Accessories">
+                <div class="category-info">
+                    <h2>Bags & Accessories</h2>
+                    <p>Handbags, Wallets, Jewelry & more</p>
+                    <a href="#accessories" class="category-btn">
+                        Explore Collection <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="category-item">
+                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800" alt="Footwear">
+                <div class="category-info">
+                    <h2>Footwear</h2>
+                    <p>Sneakers, Heels, Boots & more</p>
+                    <a href="#footwear" class="category-btn">
+                        Explore Collection <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <section class="category-featured">
+            <h3>Featured Items</h3>
+            <div class="product-grid">
+                <!-- Featured products will be dynamically loaded here -->
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="../scripts/cart.js"></script>
+    <script>
+        // Load navbar
+        fetch('../components/navbar/navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-container').innerHTML = data;
+                if (typeof initCart === 'function') initCart();
+            });
+
+        // Load footer
+        fetch('../components/footer/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-container').innerHTML = data;
+            });
+
+        // Load featured products
+        document.addEventListener('DOMContentLoaded', function() {
+            const productGrid = document.querySelector('.product-grid');
+            if (productGrid) {
+                // Here you would typically fetch and display featured products
+                // For now, we'll leave it empty as it requires backend integration
+            }
+        });
+    </script>
+</body>
+</html> 
+</html> 
