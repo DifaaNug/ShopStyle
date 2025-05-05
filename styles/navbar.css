@@ -1,82 +1,76 @@
 .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--bg-color);
+    padding: 1rem 2rem;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
-    background-color: var(--bg-color);
-    border-bottom: 1px solid var(--border-color);
-    box-shadow: 0 2px 4px var(--shadow-color);
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 .navbar-brand {
-    flex: 0 0 auto;
-}
-
-.site-name {
-    text-decoration: none;
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    text-decoration: none;
 }
 
-.site-logo {
+.brand-logo {
+    width: 40px;
+    height: 40px;
+    background-color: #3498db;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, var(--accent-color), #2980b9);
-    border-radius: 12px;
     color: white;
     font-size: 1.2rem;
-    transition: transform 0.3s ease;
 }
 
-.site-name:hover .site-logo {
-    transform: rotate(-10deg);
-}
-
-.site-text {
+.brand-text {
     display: flex;
     flex-direction: column;
 }
 
-.site-text-main {
-    color: var(--text-color);
-    font-size: 1.4rem;
+.brand-text span:first-child {
+    font-size: 1.25rem;
     font-weight: 600;
-    letter-spacing: -0.5px;
+    color: var(--text-color);
     line-height: 1.2;
 }
 
-.site-text-sub {
-    color: var(--hover-color);
-    font-size: 0.8rem;
-    font-weight: 400;
-    text-transform: uppercase;
+.brand-subtext {
+    font-size: 0.7rem;
+    color: #666;
     letter-spacing: 1px;
-}
-
-.navbar-right {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
 }
 
 .navbar-links {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 2.5rem;
 }
 
 .nav-link {
     text-decoration: none;
     color: var(--text-color);
     font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
 }
 
 .nav-link:hover {
-    color: var(--hover-color);
+    color: #3498db;
 }
 
 .navbar-actions {
@@ -85,60 +79,80 @@
     gap: 1.5rem;
 }
 
-.cart-button, .theme-toggle {
+.cart-button {
+    position: relative;
     background: none;
     border: none;
     cursor: pointer;
-    width: 24px;
-    height: 24px;
-    padding: 0;
     color: var(--text-color);
+    font-size: 1.5rem;
+    padding: 0.5rem;
     display: flex;
     align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.cart-button i, .theme-toggle i {
-    font-size: 1.2rem;
-}
-
-.cart-button:hover, .theme-toggle:hover {
-    color: var(--hover-color);
-}
-
-.nav-button {
-    padding: 0.5rem 1rem;
-    background-color: var(--button-bg);
-    color: var(--button-text);
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.875rem;
-    font-weight: 500;
-}
-
-.nav-button:hover {
-    opacity: 0.9;
 }
 
 .cart-count {
-    background-color: #000000;
-    color: #ffffff;
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #3498db;
+    color: white;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
-    width: 16px;
-    height: 16px;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    top: -6px;
-    right: -6px;
-    font-weight: 500;
+    font-weight: 600;
 }
 
-[data-theme="dark"] .cart-count {
-    background-color: #ffffff;
-    color: #000000;
+.sign-in-button {
+    background: #000;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.sign-in-button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.menu-button {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 1rem;
+    }
+    
+    .brand-subtext {
+        display: none;
+    }
+
+    .navbar-links {
+        display: none;
+    }
+    
+    .menu-button {
+        display: flex;
+    }
+    
+    .sign-in-button {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
 } 
