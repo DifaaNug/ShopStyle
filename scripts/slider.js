@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(slideInterval);
         slideInterval = setInterval(nextSlide, 5000);
     }
-    
+
     function updateSlider() {
         slider.style.transform = `translateX(-${currentSlide * 100}%)`;
         
