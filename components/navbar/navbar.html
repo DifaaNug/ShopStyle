@@ -32,3 +32,23 @@
 
 <!-- Add Font Awesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('accessToken');
+    const signInButton = document.querySelector('.sign-in-button');
+
+    if (token) {
+      signInButton.textContent = 'Logout';
+      signInButton.addEventListener('click', () => {
+        localStorage.removeItem('accessToken');
+        window.location.reload();
+      });
+    } else {
+      signInButton.textContent = 'Sign In';
+      signInButton.addEventListener('click', () => {
+        window.location.href = '../pages/login.html';
+      });
+    }
+  });
+</script>
