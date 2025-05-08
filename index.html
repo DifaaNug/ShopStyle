@@ -93,6 +93,10 @@
                 document.getElementById('navbar-container').innerHTML = html;
                 // Initialize cart after navbar is loaded
                 initCart();
+                // Load navbar.js script after navbar is loaded
+                const navbarScript = document.createElement('script');
+                navbarScript.src = 'scripts/navbar.js';
+                document.body.appendChild(navbarScript);
             });
 
         // Load and inject the footer component
