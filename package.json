@@ -1,0 +1,28 @@
+{
+  "name": "shopstyle",
+  "version": "1.0.0",
+  "description": "ShopStyle is a modern, responsive e-commerce website built with vanilla HTML, CSS, and JavaScript. It features a clean and elegant design focused on providing a premium shopping experience for fashion enthusiasts.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DifaaNug/ShopStyle.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DifaaNug/ShopStyle/issues"
+  },
+  "homepage": "https://github.com/DifaaNug/ShopStyle#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
