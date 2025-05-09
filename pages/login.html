@@ -26,19 +26,22 @@
             <button type="submit">Login</button>
         </form>
         <div class="register-link">
-            Belum punya akun? <a href="#">Daftar di sini</a>
+            Belum punya akun? <a href="register.html">Daftar di sini</a>
         </div>
     </div>
     <script>
+      // Store a reference to the navbar script
+      let navbarScript;
+
       // Load navbar
       fetch('../components/navbar/navbar.html')
         .then(res => res.text())
         .then(data => {
           document.getElementById('navbar-placeholder').innerHTML = data;
           // Load navbar.js after navbar is loaded
-          const script = document.createElement('script');
-          script.src = '../scripts/navbar.js';
-          document.body.appendChild(script);
+          navbarScript = document.createElement('script');
+          navbarScript.src = '../scripts/navbar.js';
+          document.body.appendChild(navbarScript);
         });
     </script>
     <script>
@@ -48,23 +51,46 @@
         e.preventDefault();
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
+        
         try {
           const response = await fetch('http://localhost:3000/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
           });
+          
           const result = await response.json();
+          
           if (!response.ok) {
-            alert(result.message);
+            alert(result.message || 'Login failed');
             return;
           }
-          // Store token and redirect
-          localStorage.setItem('accessToken', result.accessToken);
-          window.location.href = '../index.html';
+          
+          // Store token with error handling
+          try {
+            localStorage.setItem('accessToken', result.accessToken);
+            localStorage.setItem('userName', result.name || email);
+            
+            // Show success message
+            alert('Login successful! Redirecting...');
+            
+            // Wait for the alert to be dismissed then redirect
+            setTimeout(() => {
+              window.location.href = '../index.html';
+            }, 500);
+            
+          } catch (storageError) {
+            console.error('Error accessing localStorage:', storageError);
+            alert('Login successful, but there was an error saving your session. You may need to enable cookies in your browser.');
+            
+            // Still redirect even if localStorage fails
+            setTimeout(() => {
+              window.location.href = '../index.html';
+            }, 1000);
+          }
         } catch (err) {
-          console.error(err);
-          alert('Login error');
+          console.error('Login error:', err);
+          alert('There was an error connecting to the server. Please try again later.');
         }
       });
     </script>
