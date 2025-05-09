@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Women's Fashion - ShopStyle</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/navbar.css">
+    <link rel="stylesheet" href="../styles/cart.css">
+    <link rel="stylesheet" href="../styles/products.css">
+    <link rel="stylesheet" href="../styles/footer.css">
+    <style>
+        .category-banner {
+            height: 300px; /* Kembali ke tinggi asli 300px */
+            background-image: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200');
+            background-size: cover;
+            background-position: center 30%; /* Mengatur posisi gambar agar terfokus pada bagian atas */
+            position: relative;
+            margin-bottom: 20px; /* Mengurangi margin bottom */
+            overflow: hidden; /* Menambahkan overflow hidden untuk memotong gambar di bawah */
+            max-height: 120px; /* Mengurangi tinggi banner menjadi 120px agar produk langsung terlihat */
+        }
+        
+        .category-banner::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        
+        .banner-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #fff;
+            z-index: 1;
+            width: 80%;
+        }
+        
+        .banner-content h1 {
+            font-size: 2.5rem; /* Slightly smaller font size */
+            margin-bottom: 5px; /* Reduced bottom margin */
+        }
+        
+        .banner-content p {
+            font-size: 1.1rem; /* Slightly smaller font size */
+        }
+        
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .filter-options select {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+            background-color: white;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .product-count {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .product-category {
+            margin-bottom: 50px;
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .category-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: #3498db;
+        }
+
+        .category-banner {
+            height: 150px; /* Reduced height to make products visible */
+            margin-bottom: 10px; /* Reduced margin */
+        }
+
+        .banner-content h1 {
+            font-size: 1.8rem; /* Adjusted font size for better fit */
+        }
+
+        .banner-content p {
+            font-size: 1rem; /* Adjusted font size */
+        }
+
+        .filter-bar {
+            margin-bottom: 15px; /* Reduced margin to save space */
+        }
+
+        .category-banner {
+            height: 250px; /* Mengembalikan tinggi banner ke ukuran proporsional */
+            margin-bottom: 20px; /* Margin yang cukup untuk memisahkan elemen */
+        }
+
+        .container {
+            margin-top: -50px; /* Mengurangi jarak antara banner dan produk */
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <main>
+        <div class="category-banner">
+            <div class="banner-content">
+                <h1>Women's Fashion</h1>
+                <p>Discover our latest collections for women</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="filter-bar">
+                <div class="filter-options">
+                    <select id="sort-by">
+                        <option value="default">Sort by: Featured</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="newest">Newest Arrivals</option>
+                        <option value="rating">Customer Rating</option>
+                    </select>
+                    <select id="filter-by">
+                        <option value="all">All Items</option>
+                        <option value="dresses">Dresses</option>
+                        <option value="tops">Tops & Blouses</option>
+                        <option value="pants">Pants & Skirts</option>
+                        <option value="outerwear">Outerwear</option>
+                    </select>
+                </div>
+                <div class="product-count">
+                    Showing 15 of 45 products
+                </div>
+            </div>
+
+            <!-- Featured Products -->
+            <section class="product-category">
+                <h2 class="category-title">New Arrivals</h2>
+                <div class="product-grid">
+                    <div class="product-card">
+                        <div class="product-badge">New</div>
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=800" alt="Summer Floral Dress">
+                            <div class="product-actions">
+                                <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                                <button class="quickview-btn" aria-label="Quick view"><i class="far fa-eye"></i></button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>Summer Floral Dress</h3>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span>(4.5)</span>
+                            </div>
+                            <div class="product-price">
+                                <span class="price">$79.99</span>
+                            </div>
+                            <button class="add-to-cart" data-product='{"id":101,"name":"Summer Floral Dress","price":79.99,"image":"https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=800"}'>
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-badge">Trending</div>
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=800" alt="Bohemian Maxi Dress">
+                            <div class="product-actions">
+                                <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                                <button class="quickview-btn" aria-label="Quick view"><i class="far fa-eye"></i></button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>Bohemian Maxi Dress</h3>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>(4.0)</span>
+                            </div>
+                            <div class="product-price">
+                                <span class="price">$89.99</span>
+                            </div>
+                            <button class="add-to-cart" data-product='{"id":104,"name":"Bohemian Maxi Dress","price":89.99,"image":"https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=800"}'>
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=800" alt="Stylish Blazer">
+                            <div class="product-actions">
+                                <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                                <button class="quickview-btn" aria-label="Quick view"><i class="far fa-eye"></i></button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>Stylish Blazer</h3>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>(4.0)</span>
+                            </div>
+                            <div class="product-price">
+                                <span class="price">$129.99</span>
+                            </div>
+                            <button class="add-to-cart" data-product='{"id":102,"name":"Stylish Blazer","price":129.99,"image":"https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=800"}'>
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-badge">Sale</div>
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1551163943-3f6a855d1153?w=800" alt="Designer Jeans">
+                            <div class="product-actions">
+                                <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                                <button class="quickview-btn" aria-label="Quick view"><i class="far fa-eye"></i></button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>Designer Jeans</h3>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>(5.0)</span>
+                            </div>
+                            <div class="product-price">
+                                <span class="original-price">$99.99</span>
+                                <span class="price">$69.99</span>
+                            </div>
+                            <button class="add-to-cart" data-product='{"id":103,"name":"Designer Jeans","price":69.99,"image":"https://images.unsplash.com/photo-1551163943-3f6a855d1153?w=800"}'>
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dresses Collection -->
+            <section class="product-category">
+                <h2 class="category-title">Dresses Collection</h2>
+                <div class="product-grid">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=800" alt="Evening Dress">
+                            <div class="product-actions">
+                                <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                                <button class="quickview-btn" aria-label="Quick view"><i class="far fa-eye"></i></button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>Evening Dress</h3>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>(5.0)</span>
+                            </div>
+                            <div class="product-price">
+                                <span class="price">$159.99</span>
+                            </div>
+                            <button class="add-to-cart" data-product='{"id":105,"name":"Evening Dress","price":159.99,"image":"https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=800"}'>
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-badge">Bestseller</div>
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1495385794356-15371f348c31?w=800" alt="Casual Day Dress">
+                            <div class="product-actions">
+                                <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                                <button class="quickview-btn" aria-label="Quick view"><i class="far fa-eye"></i></button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>Casual Day Dress</h3>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>(4.0)</span>
+                            </div>
+                            <div class="product-price">
+                                <span class="price">$59.99</span>
+                            </div>
+                            <button class="add-to-cart" data-product='{"id":106,"name":"Casual Day Dress","price":59.99,"image":"https://images.unsplash.com/photo-1495385794356-15371f348c31?w=800"}'>
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=800" alt="Summer Sundress">
+                            <div class="product-actions">
+                                <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                                <button class="quickview-btn" aria-label="Quick view"><i class="far fa-eye"></i></button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>Summer Sundress</h3>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span>(4.6)</span>
+                            </div>
+                            <div class="product-price">
+                                <span class="price">$69.99</span>
+                            </div>
+                            <button class="add-to-cart" data-product='{"id":107,"name":"Summer Sundress","price":69.99,"image":"https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=800"}'>
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-badge">Premium</div>
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1550639525-c97d455acf70?w=800" alt="Designer Gown">
+                            <div class="product-actions">
+                                <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                                <button class="quickview-btn" aria-label="Quick view"><i class="far fa-eye"></i></button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>Designer Gown</h3>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>(4.9)</span>
+                            </div>
+                            <div class="product-price">
+                                <span class="price">$249.99</span>
+                            </div>
+                            <button class="add-to-cart" data-product='{"id":108,"name":"Designer Gown","price":249.99,"image":"https://images.unsplash.com/photo-1550639525-c97d455acf70?w=800"}'>
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tops & Blouses -->
+            <section class="product-category">
+                <h2 class="category-title">Tops & Blouses</h2>
+                <div class="product-grid">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1499939667766-4afceb292d05?w=800" alt="Silk Blouse">
+                            <div class="product-actions">
+                                <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                                <button class="quickview-btn" aria-label="Quick view"><i class="far fa-eye"></i></button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>Silk Blouse</h3>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>(4.0)</span>
+                            </div>
+                            <div class="product-price">
+                                <span class="price">$89.99</span>
+                            </div>
+                            <button class="add-to-cart" data-product='{"id":109,"name":"Silk Blouse","price":89.99,"image":"https://images.unsplash.com/photo-1499939667766-4afceb292d05?w=800"}'>
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-badge">Sale</div>
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=800" alt="Casual T-shirt">
+                            <div class="product-actions">
+                                <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                                <button class="quickview-btn" aria-label="Quick view"><i class="far fa-eye"></i></button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>Casual T-shirt</h3>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span>(4.5)</span>
+                            </div>
+                            <div class="product-price">
+                                <span class="original-price">$39.99</span>
+                                <span class="price">$29.99</span>
+                            </div>
+                            <button class="add-to-cart" data-product='{"id":110,"name":"Casual T-shirt","price":29.99,"image":"https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=800"}'>
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1516726817505-f5ed825624d8?w=800" alt="Button-up Shirt">
+                            <div class="product-actions">
+                                <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                                <button class="quickview-btn" aria-label="Quick view"><i class="far fa-eye"></i></button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>Button-up Shirt</h3>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>(4.1)</span>
+                            </div>
+                            <div class="product-price">
+                                <span class="price">$49.99</span>
+                            </div>
+                            <button class="add-to-cart" data-product='{"id":111,"name":"Button-up Shirt","price":49.99,"image":"https://images.unsplash.com/photo-1516726817505-f5ed825624d8?w=800"}'>
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="close-cart"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items">
+            <!-- Cart items will be dynamically added here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span class="total-amount">$0.00</span>
+            </div>
+            <button class="checkout-btn">Checkout</button>
+        </div>
+    </div>
+
+    <script src="../scripts/cart.js"></script>
+    <script>
+        // Load navbar
+        fetch('../components/navbar/navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-container').innerHTML = data;
+                if (typeof initCart === 'function') initCart();
+                
+                // Load navbar.js script after navbar is loaded
+                const navbarScript = document.createElement('script');
+                navbarScript.src = '../scripts/navbar.js';
+                document.body.appendChild(navbarScript);
+            });
+
+        // Load footer
+        fetch('../components/footer/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-container').innerHTML = data;
+            });
+
+        // Initialize add to cart functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productData = JSON.parse(this.dataset.product);
+                    addToCart(productData);
+                });
+            });
+            
+            // Basic filter and sort functionality
+            document.getElementById('sort-by').addEventListener('change', function() {
+                // Here you would implement sorting logic
+                alert('Sorting feature will be implemented soon!');
+            });
+            
+            document.getElementById('filter-by').addEventListener('change', function() {
+                // Here you would implement filtering logic
+                alert('Filtering feature will be implemented soon!');
+            });
+        });
+    </script>
+</body>
+</html>
