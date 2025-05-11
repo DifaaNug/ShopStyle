@@ -104,4 +104,4 @@ Pull request & saran sangat diterima!
 MIT License
 
 ## Kontak
-Buka issue di repo untuk pertanyaan/saran
+Buka issue di repo untuk pertanyaan/saran.
