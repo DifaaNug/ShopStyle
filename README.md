@@ -1,80 +1,107 @@
 # ShopStyle - Premium Fashion Store
 
-ShopStyle is a modern, responsive e-commerce website built with vanilla HTML, CSS, and JavaScript. It features a clean and elegant design focused on providing a premium shopping experience for fashion enthusiasts.
+ShopStyle adalah website e-commerce fashion modern dan responsif berbasis HTML, CSS, dan JavaScript (tanpa framework). Fokus pada pengalaman belanja premium dengan fitur interaktif dan tampilan elegan.
 
-## Features
+## Fitur Utama
 
 - 🛍️ **Modern UI/UX Design**
-  - Responsive layout that works on all devices
-  - Clean and elegant interface
-  - Smooth animations and transitions
-  - Custom shopping cart functionality
-
-- 🎨 **Styling**
-  - Custom CSS with modern design principles
-  - Responsive design using CSS Grid and Flexbox
-  - Beautiful gradients and shadows
-  - Custom animations and transitions
+  - Responsive di semua perangkat
+  - Clean, elegan, dan animasi halus
+  - Komponen navbar & footer modular
 
 - 🛒 **Shopping Features**
-  - Interactive shopping cart
-  - Product browsing and filtering
-  - Add to cart functionality
-  - Checkout process
+  - Grid produk dinamis dari data JS
+  - **Filter produk** berdasarkan kategori & subkategori (dropdown interaktif)
+  - Badge label produk: New, Best Seller, Sale, Limited
+  - Rating bintang pada produk
+  - Add to cart & cart sidebar
+  - Checkout sederhana
 
-## Project Structure
+- 🗂️ **Categories Page**
+  - Daftar kategori fashion (Women, Men, Accessories, Footwear)
+  - **Preview produk unggulan** per kategori (otomatis dari data produk)
+  - Tombol "Explore Collection" langsung filter ke halaman produk
+
+- 🎨 **Styling**
+  - CSS Grid & Flexbox
+  - Card, shadow, gradient, dan efek hover modern
+  - Kompatibel mobile & desktop
+
+## Struktur Project
 
 ```
-├── assets/          # Images and other static assets
-├── components/      # Reusable UI components
-│   ├── navbar/     # Navigation bar component
-│   └── footer/     # Footer component
-├── pages/          # Additional pages
-├── scripts/        # JavaScript files
-├── styles/         # CSS stylesheets
-│   ├── main.css    # Main styles
-│   ├── navbar.css  # Navigation styles
-│   ├── cart.css    # Cart styles
-│   ├── footer.css  # Footer styles
-│   └── product.css # Product page styles
-└── index.html      # Main entry point
+├── assets/          # Gambar & aset statis
+├── components/      # Komponen UI reusable
+│   ├── navbar/     # Navbar
+│   └── footer/     # Footer
+├── pages/          # Halaman utama & tambahan
+│   ├── products.html   # Halaman produk
+│   ├── categories.html # Halaman kategori
+├── scripts/        # File JavaScript
+│   ├── product.js  # Data & logic produk
+│   ├── cart.js     # Logic cart
+├── styles/         # CSS
+│   ├── main.css
+│   ├── navbar.css
+│   ├── cart.css
+│   ├── footer.css
+│   ├── products.css
+│   └── categories.css
+└── index.html      # Landing page
 ```
 
-## Technologies Used
+## Struktur Data Produk (Contoh)
+```js
+{
+  id: 1,
+  name: "Elegant Floral Dress",
+  price: 750000,
+  image: "url_gambar",
+  category: "Women's Fashion",
+  subcategory: "Dresses",
+  rating: 4.7,
+  isNew: true,
+  label: ["New", "Best Seller"],
+  stock: "Ready",
+  colors: ["Red", "Blue", "White"]
+}
+```
 
-- HTML5
-- CSS3
-- JavaScript (ES6+)
-- Font Awesome (for icons)
-- Google Fonts (Poppins)
+## Cara Menjalankan
 
-## Getting Started
-
-1. Clone the repository:
+1. **Clone repo:**
    ```bash
    git clone [repository-url]
+   cd ShopStyle
    ```
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+3. **Jalankan server (auto-reload):**
+   ```bash
+   npm run dev
+   # atau
+   node server.js
+   ```
+4. **Buka di browser:**
+   - `http://localhost:3000/`
 
-2. Open the project in your preferred code editor
+## Tips Penggunaan
+- **Filter produk:**
+  - Bisa langsung filter via dropdown di halaman produk
+  - Atau klik kategori di halaman kategori, otomatis filter via query string, contoh:
+    - `products.html?category=Men's%20Fashion`
+- **Tambah produk:**
+  - Edit/extend array `products` di `scripts/product.js`
+- **Preview produk kategori:**
+  - Otomatis tampil 3 produk unggulan per kategori
 
-3. Open `index.html` in your web browser to view the website
+## Kontribusi
+Pull request & saran sangat diterima!
 
-## Development
+## Lisensi
+MIT License
 
-The project is built with vanilla web technologies, making it easy to modify and extend:
-
-- Add new products by modifying the product data in the JavaScript files
-- Customize styles by editing the CSS files
-- Add new features by extending the JavaScript functionality
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Contact
-
-For any questions or suggestions, please open an issue in the repository. 
+## Kontak
+Buka issue di repo untuk pertanyaan/saran. 
