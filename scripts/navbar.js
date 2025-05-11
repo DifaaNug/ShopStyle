@@ -50,6 +50,7 @@ function updateAuthUI() {
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('userName');
                 localStorage.removeItem('userEmail');
+                localStorage.removeItem('cartItems');
             } catch (error) {
                 console.error('Error removing from localStorage:', error);
             }
