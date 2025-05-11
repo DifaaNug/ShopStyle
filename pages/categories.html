@@ -23,47 +23,55 @@
         </header>
 
         <div class="categories-grid">
-            <div class="category-item">
+            <div class="category-item" data-category="Women's Fashion">
                 <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=800" alt="Women's Fashion">
                 <div class="category-info">
                     <h2>Women's Fashion</h2>
                     <p>Dresses, Tops, Skirts & more</p>
-                    <a href="womens-fashion.html" class="category-btn">
+                    <a href="products.html?category=Women's%20Fashion" class="category-btn">
                         Explore Collection <i class="fas fa-arrow-right"></i>
                     </a>
+                    <div class="category-preview-label">Produk Unggulan</div>
+                    <div class="category-preview" id="preview-women"></div>
                 </div>
             </div>
 
-            <div class="category-item">
+            <div class="category-item" data-category="Men's Fashion">
                 <img src="https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?w=800" alt="Men's Fashion">
                 <div class="category-info">
                     <h2>Men's Fashion</h2>
                     <p>Suits, Shirts, Pants & more</p>
-                    <a href="mens-fashion.html" class="category-btn">
+                    <a href="products.html?category=Men's%20Fashion" class="category-btn">
                         Explore Collection <i class="fas fa-arrow-right"></i>
                     </a>
+                    <div class="category-preview-label">Produk Unggulan</div>
+                    <div class="category-preview" id="preview-men"></div>
                 </div>
             </div>
 
-            <div class="category-item">
+            <div class="category-item" data-category="Bags & Accessories">
                 <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800" alt="Bags & Accessories">
                 <div class="category-info">
                     <h2>Bags & Accessories</h2>
                     <p>Handbags, Wallets, Jewelry & more</p>
-                    <a href="accessories.html" class="category-btn">
+                    <a href="products.html?category=Bags%20%26%20Accessories" class="category-btn">
                         Explore Collection <i class="fas fa-arrow-right"></i>
                     </a>
+                    <div class="category-preview-label">Produk Unggulan</div>
+                    <div class="category-preview" id="preview-accessories"></div>
                 </div>
             </div>
 
-            <div class="category-item">
+            <div class="category-item" data-category="Footwear">
                 <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800" alt="Footwear">
                 <div class="category-info">
                     <h2>Footwear</h2>
                     <p>Sneakers, Heels, Boots & more</p>
-                    <a href="footwear.html" class="category-btn">
+                    <a href="products.html?category=Footwear" class="category-btn">
                         Explore Collection <i class="fas fa-arrow-right"></i>
                     </a>
+                    <div class="category-preview-label">Produk Unggulan</div>
+                    <div class="category-preview" id="preview-footwear"></div>
                 </div>
             </div>
         </div>
@@ -71,97 +79,14 @@
         <!-- Featured Items section -->
         <section class="category-featured">
             <h3>Featured Items</h3>
-            <div class="product-grid">
-                <div class="product-card">
-                    <div class="product-badge">Featured</div>
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?w=800" alt="Luxury Timepiece">
-                        <div class="product-actions">
-                            <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
-                            <button class="quickview-btn" aria-label="Quick view"><i class="far fa-eye"></i></button>
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <h3>Luxury Timepiece</h3>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <span>(5.0)</span>
-                        </div>
-                        <div class="product-price">
-                            <span class="price">$899.99</span>
-                        </div>
-                        <button class="add-to-cart" data-product='{"id":501,"name":"Luxury Timepiece","price":899.99,"image":"https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?w=800"}'>
-                            Add to Cart
-                        </button>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-badge">Limited</div>
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=800" alt="Premium Sunglasses">
-                        <div class="product-actions">
-                            <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
-                            <button class="quickview-btn" aria-label="Quick view"><i class="far fa-eye"></i></button>
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <h3>Premium Sunglasses</h3>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <span>(4.8)</span>
-                        </div>
-                        <div class="product-price">
-                            <span class="price">$299.99</span>
-                        </div>
-                        <button class="add-to-cart" data-product='{"id":502,"name":"Premium Sunglasses","price":299.99,"image":"https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=800"}'>
-                            Add to Cart
-                        </button>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-badge">New</div>
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800" alt="Cashmere Scarf">
-                        <div class="product-actions">
-                            <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
-                            <button class="quickview-btn" aria-label="Quick view"><i class="far fa-eye"></i></button>
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <h3>Cashmere Scarf</h3>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span>(4.2)</span>
-                        </div>
-                        <div class="product-price">
-                            <span class="price">$149.99</span>
-                        </div>
-                        <button class="add-to-cart" data-product='{"id":503,"name":"Cashmere Scarf","price":149.99,"image":"https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800"}'>
-                            Add to Cart
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <div class="product-grid" id="featured-preview"></div>
         </section>
     </main>
 
     <div id="footer-container"></div>
 
     <script src="../scripts/cart.js"></script>
+    <script src="../scripts/product.js"></script>
     <script>
         // Load navbar
         fetch('../components/navbar/navbar.html')
@@ -183,14 +108,61 @@
                 document.getElementById('footer-container').innerHTML = data;
             });
 
-        // Initialize add to cart functionality
+        // Preview produk per kategori
         document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.add-to-cart').forEach(button => {
-                button.addEventListener('click', function() {
-                    const productData = JSON.parse(this.dataset.product);
-                    addToCart(productData);
+            // Pastikan products sudah tersedia dari scripts/product.js
+            if (typeof products !== 'undefined') {
+                const previewMap = {
+                    "Women's Fashion": 'preview-women',
+                    "Men's Fashion": 'preview-men',
+                    "Bags & Accessories": 'preview-accessories',
+                    "Footwear": 'preview-footwear'
+                };
+                Object.keys(previewMap).forEach(cat => {
+                    const container = document.getElementById(previewMap[cat]);
+                    if (container) {
+                        const catProducts = products.filter(p => p.category === cat).slice(0, 3);
+                        catProducts.forEach(product => {
+                            const card = document.createElement('div');
+                            card.className = 'product-card';
+                            card.style.width = '120px';
+                            card.style.display = 'inline-block';
+                            card.style.margin = '0 8px 8px 0';
+                            card.innerHTML = `
+                                <div class="product-image" style="height:80px;overflow:hidden;position:relative;">
+                                    <img src="${product.image}" alt="${product.name}" style="width:100%;object-fit:cover;">
+                                    ${product.label && product.label[0] ? `<span class=\"badge label\" style=\"position:absolute;top:6px;left:6px;font-size:0.7rem;padding:2px 8px;border-radius:8px;background:#2196f3;color:#fff;z-index:2;\">${product.label[0]}</span>` : ''}
+                                </div>
+                                <div class="product-info" style="padding:0.5rem 0;">
+                                    <div style="font-size:0.9rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${product.name}</div>
+                                    <div style="font-size:0.85rem;color:#888;">Rp${product.price.toLocaleString('id-ID')}</div>
+                                    <div style=\"font-size:0.8rem;color:#f1c40f;line-height:1;\">${'★'.repeat(Math.round(product.rating))}${'☆'.repeat(5-Math.round(product.rating))}</div>
+                                </div>
+                            `;
+                            container.appendChild(card);
+                        });
+                    }
                 });
-            });
+                // Featured items: ambil 3 produk label 'Best Seller' atau 'New'
+                const featured = products.filter(p => (p.label && (p.label.includes('Best Seller') || p.label.includes('New')))).slice(0, 3);
+                const featuredGrid = document.getElementById('featured-preview');
+                if (featuredGrid) {
+                    featured.forEach(product => {
+                        const card = document.createElement('div');
+                        card.className = 'product-card';
+                        card.innerHTML = `
+                            <div class="product-image">
+                                <img src="${product.image}" alt="${product.name}">
+                            </div>
+                            <div class="product-info">
+                                <div style="font-weight:500;">${product.name}</div>
+                                <div style="font-size:0.95rem;color:#888;">Rp${product.price.toLocaleString('id-ID')}</div>
+                            </div>
+                        `;
+                        featuredGrid.appendChild(card);
+                    });
+                }
+            }
         });
     </script>
 </body>
