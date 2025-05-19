@@ -107,65 +107,194 @@ function setupPaymentMethods() {
     });
 }
 
-// Setup form validation and submission
+// Function to show error message
+function showError(message) {
+    const errorDiv = document.getElementById('error-messages');
+    if (errorDiv) {
+        errorDiv.textContent = message;
+        errorDiv.classList.add('show');
+        
+        // Scroll to error message
+        errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else {
+        console.error('Error:', message);
+        alert(message);
+    }
+}
+
+// Setup checkout form submission
 function setupCheckoutForm() {
-    const placeOrderBtn = document.getElementById('place-order-btn');
+    console.log('Setting up checkout form...');
     
-    placeOrderBtn.addEventListener('click', function(e) {
-        e.preventDefault();
+    const form = document.getElementById('checkout-form');
+    const placeOrderBtn = document.getElementById('place-order-btn-summary');
+    
+    if (!form) {
+        console.error('Checkout form not found!');
+        return;
+    }
+    
+    if (!placeOrderBtn) {
+        console.error('Place order button not found!');
+        return;
+    }
+    
+    console.log('Form and button found, setting up event listener...');
+    
+    // Menghubungkan tombol ringkasan dengan form
+    placeOrderBtn.addEventListener('click', function() {
+        console.log('Summary order button clicked');
         
-        // Get form data
-        const form = document.getElementById('checkout-form');
-        
-        // Basic validation
-        const requiredFields = form.querySelectorAll('[required]');
-        let isValid = true;
-        
-        requiredFields.forEach(field => {
-            if (!field.value.trim()) {
-                isValid = false;
-                field.classList.add('error');
-                
-                // Remove error class when user types
-                field.addEventListener('input', function() {
-                    if (this.value.trim()) {
-                        this.classList.remove('error');
-                    }
-                });
-            } else {
-                field.classList.remove('error');
-            }
-        });
-        
-        // If using credit card, validate card fields
-        const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
-        if (paymentMethod === 'credit-card') {
-            const cardFields = document.querySelectorAll('#credit-card-fields input');
-            cardFields.forEach(field => {
-                if (!field.value.trim()) {
-                    isValid = false;
-                    field.classList.add('error');
-                    
-                    // Remove error class when user types
-                    field.addEventListener('input', function() {
-                        if (this.value.trim()) {
-                            this.classList.remove('error');
-                        }
-                    });
-                } else {
-                    field.classList.remove('error');
-                }
-            });
-        }
-        
-        if (!isValid) {
-            alert('Please fill in all required fields');
+        // Validasi form terlebih dahulu
+        if (!validateCheckoutForm()) {
             return;
         }
         
-        // Process the order
-        processOrder(form);
+        // Jika form valid, jalankan submit
+        submitCheckoutForm();
     });
+    
+    // Function untuk validasi form
+    function validateCheckoutForm() {
+        // Clear previous error messages
+        const errorDiv = document.getElementById('error-messages');
+        errorDiv.textContent = '';
+        errorDiv.classList.remove('show');
+        
+        // Basic form validation
+        const email = document.getElementById('email').value;
+        const fullname = document.getElementById('fullname').value;
+        const phone = document.getElementById('phone').value;
+        const address = document.getElementById('address').value;
+        
+        if (!email || !fullname || !phone || !address) {
+            showError('Please fill in all required fields');
+            // Scroll to form
+            document.querySelector('.checkout-form-container').scrollIntoView({ behavior: 'smooth' });
+            return false;
+        }
+        
+        // Get cart items and validate
+        const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        
+        if (cartItems.length === 0) {
+            showError('Your cart is empty');
+            return false;
+        }
+        
+        return true;
+    }
+    
+    // Function untuk submit form
+    async function submitCheckoutForm() {
+        const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        const email = document.getElementById('email').value;
+        const fullname = document.getElementById('fullname').value;
+        const phone = document.getElementById('phone').value;
+        const address = document.getElementById('address').value;
+        
+        const subtotal = cartItems.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+        const shipping = 10;
+        const tax = subtotal * 0.1;
+        const total = subtotal + shipping + tax;
+        
+        // Prepare order data
+        const orderData = {
+            email: email,
+            fullname: fullname,
+            phone: phone,
+            address: address,
+            items: cartItems,
+            subtotal: subtotal,
+            shipping: shipping,
+            tax: tax,
+            total: total
+        };
+        
+        console.log('Sending order data:', orderData);
+        
+        try {
+            // Disable the place order button while processing
+            placeOrderBtn.disabled = true;
+            placeOrderBtn.textContent = 'Processing...';
+            
+            // Send order to server
+            const response = await fetch('/api/place-order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(orderData)
+            });
+            
+            const result = await response.json();
+            console.log('Server response:', result);
+            
+            if (result.success) {
+                // Clear cart
+                localStorage.removeItem('cartItems');
+                
+                // Show success message
+                const orderNumberEl = document.getElementById('order-number');
+                const confirmationEmailEl = document.getElementById('confirmation-email');
+                if (orderNumberEl) orderNumberEl.textContent = result.orderId;
+                if (confirmationEmailEl) confirmationEmailEl.textContent = email;
+                
+                // Show order modal
+                const orderModal = document.getElementById('order-modal');
+                if (orderModal) {
+                    orderModal.style.display = 'block';
+                } else {
+                    alert('Order placed successfully! Your order ID: ' + result.orderId);
+                    window.location.href = '/';
+                }
+            } else {
+                throw new Error(result.message || 'Failed to place order');
+            }
+        } catch (error) {
+            console.error('Error placing order:', error);
+            showError('Failed to place order: ' + error.message);
+        } finally {
+            // Re-enable the place order button
+            placeOrderBtn.disabled = false;
+            placeOrderBtn.textContent = 'Place Order';
+        }
+    }
+}
+
+// Function to place order and send confirmation email
+async function placeOrder(orderData) {
+    try {
+        const response = await fetch('/api/place-order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(orderData)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            // Show success modal
+            const modal = document.getElementById('order-success-modal');
+            const orderIdSpan = document.getElementById('order-id');
+            const emailSpan = document.getElementById('confirmation-email');
+            
+            orderIdSpan.textContent = result.orderId;
+            emailSpan.textContent = orderData.email;
+            
+            modal.style.display = 'block';
+            
+            // Clear cart
+            localStorage.removeItem('cartItems');
+        } else {
+            throw new Error(result.message);
+        }
+    } catch (error) {
+        console.error('Error placing order:', error);
+        alert('Failed to place order. Please try again.');
+    }
 }
 
 // Process the order
@@ -225,34 +354,43 @@ function generateOrderId() {
 // Setup order confirmation modal
 function setupOrderModal() {
     const modal = document.getElementById('order-modal');
-    const closeBtn = modal.querySelector('.close-modal');
-    const continueShopping = document.getElementById('continue-shopping');
-    const viewOrder = document.getElementById('view-order');
+    const closeBtn = document.querySelector('.close-modal');
+    const continueBtn = document.getElementById('continue-shopping');
+    const viewOrderBtn = document.getElementById('view-order');
     
-    // Close modal when clicking the X
-    closeBtn.addEventListener('click', () => {
-        modal.classList.remove('active');
-        window.location.href = '../index.html';
-    });
+    if (!modal) return;
+    
+    // Close modal when clicking X
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            window.location.href = '/';
+        });
+    }
     
     // Continue shopping button
-    continueShopping.addEventListener('click', () => {
-        modal.classList.remove('active');
-        window.location.href = '../pages/products.html';
-    });
+    if (continueBtn) {
+        continueBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            window.location.href = '/pages/products.html';
+        });
+    }
     
-    // View order button - would go to order status page in a real app
-    viewOrder.addEventListener('click', () => {
-        modal.classList.remove('active');
-        alert('Order tracking would be implemented in a real app');
-        window.location.href = '../index.html';
-    });
+    // View order button (for future implementation)
+    if (viewOrderBtn) {
+        viewOrderBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            // Redirect to order details page (to be implemented)
+            alert('Order details feature coming soon!');
+            window.location.href = '/';
+        });
+    }
     
-    // Close if clicking outside the modal content
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.classList.remove('active');
-            window.location.href = '../index.html';
+    // Close modal when clicking outside
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+            window.location.href = '/';
         }
     });
 }
