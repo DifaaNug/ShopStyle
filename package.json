@@ -4,7 +4,9 @@
   "description": "ShopStyle is a modern, responsive e-commerce website built with vanilla HTML, CSS, and JavaScript. It features a clean and elegant design focused on providing a premium shopping experience for fashion enthusiasts.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -24,5 +26,8 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   }
 }
