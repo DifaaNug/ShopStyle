@@ -5,6 +5,7 @@ const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const path = require('path');
+const nodemailer = require('nodemailer');
 
 const app = express();
 app.use(cors());
@@ -350,6 +351,125 @@ app.put('/api/profile', authenticateToken, (req, res) => {
   // Return updated user without password
   const { password, ...userWithoutPassword } = user;
   res.json({ message: 'Profile updated successfully', user: userWithoutPassword });
+});
+
+// Email configuration
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'crizykiller246@gmail.com',
+        pass: 'yfia fand uosw mvqj'
+    },
+    tls: {
+        rejectUnauthorized: false
+    }
+});
+
+// Function to send order confirmation email
+async function sendOrderConfirmationEmail(orderData) {
+    try {
+        const mailOptions = {
+            from: {
+                name: 'ShopStyle Store',
+                address: 'crizykiller246@gmail.com'
+            },
+            to: orderData.email,
+            subject: `Your ShopStyle Order Confirmation #${orderData.orderId}`,
+            html: `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <style>
+                        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                        .container { max-width: 600px; margin: auto; padding: 20px; }
+                        .header { background-color: #3498db; color: white; padding: 20px; text-align: center; }
+                        .order-details { margin: 20px 0; }
+                        .footer { margin-top: 30px; text-align: center; color: #666; }
+                        .button { background-color: #3498db; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <div class="header">
+                            <h1>Thank You for Your Order!</h1>
+                        </div>
+                        
+                        <div class="order-details">
+                            <h2>Order Confirmation</h2>
+                            <p>Dear ${orderData.fullname},</p>
+                            <p>Your order has been successfully placed. Here are your order details:</p>
+                            
+                            <h3>Order Number: ${orderData.orderId}</h3>
+                            <h4>Order Summary:</h4>
+                            <ul>
+                                ${orderData.items.map(item => `
+                                    <li>${item.name} - Quantity: ${item.quantity} - $${item.price}</li>
+                                `).join('')}
+                            </ul>
+                            
+                            <p><strong>Subtotal:</strong> $${orderData.subtotal}</p>
+                            <p><strong>Shipping:</strong> $${orderData.shipping}</p>
+                            <p><strong>Tax:</strong> $${orderData.tax}</p>
+                            <p><strong>Total:</strong> $${orderData.total}</p>
+                            
+                            <p><strong>Shipping Address:</strong><br>
+                            ${orderData.address}</p>
+                        </div>
+                        
+                        <div class="footer">
+                            <p>If you have any questions, please contact our customer service.</p>
+                            <p>© ${new Date().getFullYear()} ShopStyle. All rights reserved.</p>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `,
+            headers: {
+                'X-Priority': '1',
+                'X-MSMail-Priority': 'High',
+                'Importance': 'high',
+                'Content-Type': 'text/html; charset=UTF-8'
+            }
+        };
+
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Email sent:', info.response);
+        return true;
+    } catch (error) {
+        console.error('Error sending email:', error);
+        return false;
+    }
+}
+
+// Handle order submission and email confirmation
+app.post('/api/place-order', async (req, res) => {
+  try {
+    const orderData = {
+      orderId: `ORD-${Math.random().toString(36).substr(2, 6).toUpperCase()}-${Date.now().toString().substr(-6)}`,
+      email: req.body.email,
+      items: req.body.items,
+      total: req.body.total
+    };
+
+    // Send confirmation email
+    const emailSent = await sendOrderConfirmationEmail(orderData);
+
+    if (emailSent) {
+      res.json({
+        success: true,
+        message: 'Order placed successfully!',
+        orderId: orderData.orderId
+      });
+    } else {
+      throw new Error('Failed to send confirmation email');
+    }
+  } catch (error) {
+    console.error('Order error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to process order'
+    });
+  }
 });
 
 const PORT = process.env.PORT || 3000;
