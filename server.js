@@ -14,6 +14,100 @@ app.use(bodyParser.json());
 // Serve static files
 app.use(express.static(path.join(__dirname, '/')));
 
+// API endpoints for products
+app.get('/api/products', (req, res) => {
+  res.json(products);
+});
+
+app.get('/api/products/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const product = products.find(p => p.id === id);
+  
+  if (!product) {
+    return res.status(404).json({ error: 'Product not found' });
+  }
+  
+  res.json(product);
+});
+
+app.get('/api/products/filter', (req, res) => {
+  let filteredProducts = [...products];
+  
+  // Filter by minimum price
+  if (req.query.min_price) {
+    const minPrice = parseFloat(req.query.min_price);
+    filteredProducts = filteredProducts.filter(p => p.salePrice ? p.salePrice >= minPrice : p.price >= minPrice);
+  }
+  
+  // Filter by maximum price
+  if (req.query.max_price) {
+    const maxPrice = parseFloat(req.query.max_price);
+    filteredProducts = filteredProducts.filter(p => p.salePrice ? p.salePrice <= maxPrice : p.price <= maxPrice);
+  }
+  
+  // Filter by categories
+  if (req.query.categories) {
+    const categories = req.query.categories.split(',');
+    filteredProducts = filteredProducts.filter(p => 
+      p.categories && categories.some(cat => p.categories.includes(cat))
+    );
+  }
+  
+  // Filter by brands
+  if (req.query.brands) {
+    const brands = req.query.brands.split(',');
+    filteredProducts = filteredProducts.filter(p => brands.includes(p.brand));
+  }
+  
+  // Filter by colors
+  if (req.query.colors) {
+    const colors = req.query.colors.split(',');
+    filteredProducts = filteredProducts.filter(p => 
+      p.colors && colors.some(color => p.colors.includes(color))
+    );
+  }
+  
+  // Filter by sizes
+  if (req.query.sizes) {
+    const sizes = req.query.sizes.split(',');
+    filteredProducts = filteredProducts.filter(p => 
+      p.sizes && sizes.some(size => p.sizes.includes(size))
+    );
+  }
+  
+  // Filter by minimum rating
+  if (req.query.rating) {
+    const minRating = parseFloat(req.query.rating);
+    filteredProducts = filteredProducts.filter(p => p.rating >= minRating);
+  }
+  
+  // Sort products
+  if (req.query.sort) {
+    switch (req.query.sort) {
+      case 'price_asc':
+        filteredProducts.sort((a, b) => (a.salePrice || a.price) - (b.salePrice || b.price));
+        break;
+      case 'price_desc':
+        filteredProducts.sort((a, b) => (b.salePrice || b.price) - (a.salePrice || a.price));
+        break;
+      case 'name_asc':
+        filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case 'name_desc':
+        filteredProducts.sort((a, b) => b.name.localeCompare(a.name));
+        break;
+      case 'rating':
+        filteredProducts.sort((a, b) => b.rating - a.rating);
+        break;
+      default:
+        // Default sorting, no change
+        break;
+    }
+  }
+  
+  res.json(filteredProducts);
+});
+
 // Demo user data (replace with real database in production)
 const users = [
   {
@@ -32,19 +126,86 @@ const products = [
     description: 'Comfortable cotton t-shirt in classic blue design',
     price: 19.99,
     category: 'clothing',
+    categories: ['men', 'shirts', 't-shirts'],
     tags: ['men', 't-shirt', 'casual'],
     imageUrl: '../assets/products/tshirt-blue.jpg',
-    stock: 50
+    images: [
+      '../assets/products/tshirt-blue.jpg',
+      '../assets/products/tshirt-blue-2.jpg',
+      '../assets/products/tshirt-blue-3.jpg'
+    ],
+    stock: 50,
+    brand: 'StyleBasics',
+    rating: 4.5,
+    reviewCount: 28,
+    colors: ['blue', 'navy'],
+    sizes: ['S', 'M', 'L', 'XL'],
+    specifications: {
+      material: '100% Cotton',
+      fit: 'Regular',
+      care: 'Machine wash cold',
+      origin: 'Imported'
+    },
+    reviews: [
+      {
+        id: 1,
+        user: 'John D.',
+        rating: 5,
+        date: '2023-05-15',
+        comment: 'Great quality t-shirt. Very comfortable and true to size.'
+      },
+      {
+        id: 2,
+        user: 'Sarah M.',
+        rating: 4,
+        date: '2023-04-22',
+        comment: 'Nice fabric and color, but slightly larger than expected.'
+      }
+    ]
   },
   {
     id: 2,
     name: 'Elegant Black Dress',
     description: 'Elegant black dress for formal occasions',
     price: 59.99,
+    salePrice: 49.99,
     category: 'clothing',
+    categories: ['women', 'dresses', 'formal'],
     tags: ['women', 'dress', 'formal'],
     imageUrl: '../assets/products/dress-black.jpg',
-    stock: 30
+    images: [
+      '../assets/products/dress-black.jpg',
+      '../assets/products/dress-black-2.jpg',
+      '../assets/products/dress-black-3.jpg'
+    ],
+    stock: 30,
+    brand: 'Eleganza',
+    rating: 4.8,
+    reviewCount: 42,
+    colors: ['black'],
+    sizes: ['XS', 'S', 'M', 'L'],
+    specifications: {
+      material: '95% Polyester, 5% Elastane',
+      fit: 'Slim fit',
+      care: 'Dry clean only',
+      length: 'Midi'
+    },
+    reviews: [
+      {
+        id: 1,
+        user: 'Emma L.',
+        rating: 5,
+        date: '2023-06-10',
+        comment: 'Perfect little black dress for any occasion. Fits beautifully!'
+      },
+      {
+        id: 2,
+        user: 'Michelle R.',
+        rating: 4,
+        date: '2023-05-28',
+        comment: 'Lovely dress, very flattering. Only giving 4 stars because the zipper feels a bit flimsy.'
+      }
+    ]
   },
   {
     id: 3,
