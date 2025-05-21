@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Detail - ShopStyle</title>
+    <!-- Add Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Add Poppins font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/navbar.css">
+    <link rel="stylesheet" href="../styles/footer.css">
+    <link rel="stylesheet" href="../styles/product-detail.css">
+    <link rel="stylesheet" href="../styles/notifications.css">
+</head>
+<body>
+    <div id="navbar-container"></div>    <!-- Breadcrumb Navigation -->
+    <div class="breadcrumb-wrapper">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="../index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="products.html">Products</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Product Detail</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <main class="product-detail-container">
+        <div class="product-detail-content">
+            <!-- Product images gallery -->
+            <div class="product-gallery">
+                <div class="main-image">
+                    <img id="main-product-image" src="" alt="Product Image">
+                </div>
+                <div class="thumbnail-images" id="thumbnail-container">
+                    <!-- Thumbnails will be populated by JS -->
+                </div>
+            </div>
+            
+            <!-- Product information -->
+            <div class="product-info">
+                <h1 id="product-name" class="product-name"></h1>
+                
+                <div class="product-meta">
+                    <div class="product-rating">
+                        <div class="stars" id="product-rating">
+                            <!-- Stars will be populated by JS -->
+                        </div>
+                        <span id="review-count">(0 reviews)</span>
+                    </div>
+                    <div class="product-sku">SKU: <span id="product-sku"></span></div>
+                </div>
+                
+                <div class="product-price">
+                    <span id="original-price" class="original-price"></span>
+                    <span id="current-price" class="current-price"></span>
+                </div>
+                
+                <div class="product-description" id="product-description">
+                    <!-- Description will be populated by JS -->
+                </div>
+                
+                <div class="product-variants">
+                    <div class="size-selector">
+                        <label for="size">Size:</label>
+                        <div class="size-options" id="size-options">
+                            <!-- Size options will be populated by JS -->
+                        </div>
+                    </div>
+                    
+                    <div class="color-selector">
+                        <label for="color">Color:</label>
+                        <div class="color-options" id="color-options">
+                            <!-- Color options will be populated by JS -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-quantity">
+                    <label for="quantity">Quantity:</label>
+                    <div class="quantity-selector">
+                        <button id="decrease-quantity" class="quantity-btn">-</button>
+                        <input type="number" id="quantity" value="1" min="1">
+                        <button id="increase-quantity" class="quantity-btn">+</button>
+                    </div>
+                </div>
+                
+                <div class="product-actions">
+                    <button id="add-to-cart-btn" class="primary-btn">Add to Cart</button>
+                    <button id="add-to-wishlist-btn" class="secondary-btn">
+                        <i class="far fa-heart"></i> Add to Wishlist
+                    </button>
+                </div>
+                
+                <div class="product-delivery">
+                    <div class="delivery-info">
+                        <i class="fas fa-truck"></i>
+                        <span>Free shipping on orders over $50</span>
+                    </div>
+                    <div class="delivery-info">
+                        <i class="fas fa-undo"></i>
+                        <span>30-day return policy</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Product details tabs -->
+        <div class="product-details-tabs">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="description">Description</button>
+                <button class="tab-btn" data-tab="specifications">Specifications</button>
+                <button class="tab-btn" data-tab="reviews">Reviews</button>
+            </div>
+            
+            <div class="tab-content">
+                <div id="description" class="tab-pane active">
+                    <div id="full-description">
+                        <!-- Full description will be populated by JS -->
+                    </div>
+                </div>
+                
+                <div id="specifications" class="tab-pane">
+                    <table class="specs-table">
+                        <tbody id="specs-table-body">
+                            <!-- Specifications will be populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div id="reviews" class="tab-pane">
+                    <div class="reviews-summary">
+                        <div class="average-rating">
+                            <div class="rating-number" id="average-rating">0.0</div>
+                            <div class="rating-stars" id="average-rating-stars">
+                                <!-- Average rating stars will be populated by JS -->
+                            </div>
+                            <div class="rating-count"><span id="total-reviews">0</span> Reviews</div>
+                        </div>
+                        
+                        <div class="rating-breakdown" id="rating-breakdown">
+                            <!-- Rating breakdown will be populated by JS -->
+                        </div>
+                    </div>
+                    
+                    <div class="reviews-list" id="reviews-list">
+                        <!-- Reviews will be populated by JS -->
+                    </div>
+                    
+                    <button id="write-review-btn" class="primary-btn">Write a Review</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Related products -->
+        <div class="related-products">
+            <h2>You May Also Like</h2>
+            <div class="product-grid" id="related-products">
+                <!-- Related products will be populated by JS -->            </div>
+        </div>
+        
+        <!-- Related Products Section -->
+        <section class="related-products">
+            <div class="section-header">
+                <h2>Related Products</h2>
+                <p>You may also like</p>
+            </div>
+            
+            <div class="product-grid">
+                <!-- Related products will be loaded dynamically -->
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-container"></div>
+    
+    <!-- Review Modal -->
+    <div id="review-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Write a Review</h2>
+            <form id="review-form">
+                <div class="form-group">
+                    <label for="review-name">Name</label>
+                    <input type="text" id="review-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Rating</label>
+                    <div class="star-rating">
+                        <i class="far fa-star" data-rating="1"></i>
+                        <i class="far fa-star" data-rating="2"></i>
+                        <i class="far fa-star" data-rating="3"></i>
+                        <i class="far fa-star" data-rating="4"></i>
+                        <i class="far fa-star" data-rating="5"></i>
+                    </div>
+                    <input type="hidden" id="rating-value" value="0" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="review-title">Review Title</label>
+                    <input type="text" id="review-title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="review-content">Review</label>
+                    <textarea id="review-content" rows="5" required></textarea>
+                </div>
+                
+                <button type="submit" class="primary-btn">Submit Review</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="../scripts/cart.js"></script>
+    <script src="../scripts/product-detail.js"></script>
+    <script>
+        // Load navbar
+        fetch('../components/navbar/navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-container').innerHTML = data;
+                
+                const navbarScript = document.createElement('script');
+                navbarScript.src = '../scripts/navbar.js';
+                document.body.appendChild(navbarScript);
+            });
+
+        // Load footer
+        fetch('../components/footer/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-container').innerHTML = data;
+            });
+    </script>
+</body>
+</html>
