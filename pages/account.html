@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - ShopStyle</title>
+    <!-- Add Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Add Poppins font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/navbar.css">
+    <link rel="stylesheet" href="../styles/footer.css">
+    <link rel="stylesheet" href="../styles/account.css">
+    <link rel="stylesheet" href="../styles/notifications.css">
+</head>
+<body class="account-page">
+    <div id="navbar-container"></div>
+
+    <!-- Breadcrumb Navigation -->
+    <div class="breadcrumb-wrapper">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="../index.html">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">My Account</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <main class="account-container">
+        <h1 class="account-title">My Account</h1>
+        
+        <div class="account-content">
+            <!-- Sidebar with navigation -->
+            <div class="account-sidebar">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <img src="../assets/user-placeholder.jpg" alt="User Avatar" id="user-avatar">
+                        <div class="avatar-overlay">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                    </div>
+                    <div class="user-details">
+                        <h3 id="user-name">John Doe</h3>
+                        <p id="user-email">johndoe@example.com</p>
+                    </div>
+                </div>
+                
+                <nav class="account-nav">
+                    <ul>
+                        <li class="active" data-section="dashboard">
+                            <a href="#dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                        </li>
+                        <li data-section="orders">
+                            <a href="#orders"><i class="fas fa-shopping-bag"></i> My Orders</a>
+                        </li>
+                        <li data-section="addresses">
+                            <a href="#addresses"><i class="fas fa-map-marker-alt"></i> Addresses</a>
+                        </li>
+                        <li data-section="profile">
+                            <a href="#profile"><i class="fas fa-user"></i> Account Details</a>
+                        </li>
+                        <li data-section="wishlist">
+                            <a href="#wishlist"><i class="far fa-heart"></i> My Wishlist</a>
+                        </li>
+                        <li data-section="logout">
+                            <a href="#logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            
+            <!-- Main content area -->
+            <div class="account-main">
+                <!-- Dashboard Section -->
+                <section class="account-section active" id="dashboard-section">
+                    <h2>Dashboard</h2>
+                    <p class="welcome-message">Hello <span id="dashboard-name">John</span> (not <span id="dashboard-name2">John</span>? <a href="#logout">Log out</a>)</p>
+                    
+                    <p>From your account dashboard you can view your recent orders, manage your shipping and billing addresses, and edit your password and account details.</p>
+                    
+                    <div class="dashboard-summary">
+                        <div class="summary-card">
+                            <div class="summary-icon">
+                                <i class="fas fa-shopping-bag"></i>
+                            </div>
+                            <div class="summary-info">
+                                <h3>Orders</h3>
+                                <p id="order-count">0</p>
+                            </div>
+                        </div>
+                        
+                        <div class="summary-card">
+                            <div class="summary-icon">
+                                <i class="far fa-heart"></i>
+                            </div>
+                            <div class="summary-info">
+                                <h3>Wishlist</h3>
+                                <p id="wishlist-count">0</p>
+                            </div>
+                        </div>
+                        
+                        <div class="summary-card">
+                            <div class="summary-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="summary-info">
+                                <h3>Addresses</h3>
+                                <p id="address-count">0</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="recent-orders">
+                        <h3>Recent Orders</h3>
+                        <div class="table-responsive">
+                            <table class="orders-table">
+                                <thead>
+                                    <tr>
+                                        <th>Order</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Total</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recent-orders-table">
+                                    <tr class="no-orders">
+                                        <td colspan="5">No orders yet.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Orders Section -->
+                <section class="account-section" id="orders-section">
+                    <h2>My Orders</h2>
+                    
+                    <div class="orders-filter">
+                        <div class="form-group">
+                            <label for="order-status">Filter by Status</label>
+                            <select id="order-status">
+                                <option value="all">All Orders</option>
+                                <option value="processing">Processing</option>
+                                <option value="shipped">Shipped</option>
+                                <option value="delivered">Delivered</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="order-date">Filter by Date</label>
+                            <select id="order-date">
+                                <option value="all">All Time</option>
+                                <option value="30">Last 30 Days</option>
+                                <option value="60">Last 60 Days</option>
+                                <option value="90">Last 90 Days</option>
+                                <option value="365">Last Year</option>
+                            </select>
+                        </div>
+                        
+                        <button id="apply-order-filter" class="secondary-btn">Apply Filter</button>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="orders-table">
+                            <thead>
+                                <tr>
+                                    <th>Order</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Total</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-table">
+                                <tr class="no-orders">
+                                    <td colspan="5">No orders yet.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                
+                <!-- Addresses Section -->
+                <section class="account-section" id="addresses-section">
+                    <h2>My Addresses</h2>
+                    
+                    <div class="addresses-container" id="addresses-container">
+                        <div class="address-card add-address">
+                            <div class="add-address-content">
+                                <i class="fas fa-plus"></i>
+                                <p>Add New Address</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Account Details Section -->
+                <section class="account-section" id="profile-section">
+                    <h2>Account Details</h2>
+                    
+                    <form id="account-form" class="account-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first-name">First Name</label>
+                                <input type="text" id="first-name" name="first-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="last-name">Last Name</label>
+                                <input type="text" id="last-name" name="last-name" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="display-name">Display Name</label>
+                            <input type="text" id="display-name" name="display-name">
+                            <small>This will be how your name will be displayed in the account section and in reviews</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <h3>Password Change</h3>
+                        
+                        <div class="form-group">
+                            <label for="current-password">Current Password (leave blank to leave unchanged)</label>
+                            <input type="password" id="current-password" name="current-password">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="new-password">New Password (leave blank to leave unchanged)</label>
+                            <input type="password" id="new-password" name="new-password">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirm-password">Confirm New Password</label>
+                            <input type="password" id="confirm-password" name="confirm-password">
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="primary-btn">Save Changes</button>
+                        </div>
+                    </form>
+                </section>
+                
+                <!-- Wishlist Section -->
+                <section class="account-section" id="wishlist-section">
+                    <h2>My Wishlist</h2>
+                    
+                    <div class="wishlist-actions">
+                        <button id="clear-wishlist" class="secondary-btn">Clear Wishlist</button>
+                    </div>
+                    
+                    <div class="wishlist-items" id="account-wishlist-items">
+                        <div class="empty-wishlist">
+                            <i class="far fa-heart"></i>
+                            <p>Your wishlist is empty</p>
+                            <a href="products.html" class="primary-btn">Continue Shopping</a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer-container"></div>
+    
+    <!-- Address Modal -->
+    <div id="address-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="address-modal-title">Add New Address</h2>
+            
+            <form id="address-form">
+                <input type="hidden" id="address-id" name="address-id">
+                
+                <div class="form-group">
+                    <label for="address-name">Address Name</label>
+                    <input type="text" id="address-name" name="address-name" placeholder="Home, Office, etc." required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="first-name-address">First Name</label>
+                    <input type="text" id="first-name-address" name="first-name-address" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="last-name-address">Last Name</label>
+                    <input type="text" id="last-name-address" name="last-name-address" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="company">Company (optional)</label>
+                    <input type="text" id="company" name="company">
+                </div>
+                
+                <div class="form-group">
+                    <label for="street-address">Street Address</label>
+                    <input type="text" id="street-address" name="street-address" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="apartment">Apartment, suite, unit, etc. (optional)</label>
+                    <input type="text" id="apartment" name="apartment">
+                </div>
+                
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" id="city" name="city" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="state">State</label>
+                        <input type="text" id="state" name="state" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="zip-code">Zip Code</label>
+                        <input type="text" id="zip-code" name="zip-code" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <select id="country" name="country" required>
+                        <option value="">Select a country</option>
+                        <option value="US">United States</option>
+                        <option value="CA">Canada</option>
+                        <option value="UK">United Kingdom</option>
+                        <option value="AU">Australia</option>
+                        <!-- Add more countries as needed -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="default-address" name="default-address">
+                    <label for="default-address">Set as default address</label>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="primary-btn">Save Address</button>
+                    <button type="button" class="secondary-btn cancel-btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../scripts/navbar.js"></script>
+    <script src="../scripts/account.js"></script>
+</body>
+</html>
