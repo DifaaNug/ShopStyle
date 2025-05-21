@@ -100,6 +100,8 @@ ShopStyle adalah website e-commerce fashion modern dan responsif berbasis HTML, 
 ## Kontribusi
 Pull request & saran sangat diterima!
 
+Pull
+
 ## Lisensi
 MIT License
 
