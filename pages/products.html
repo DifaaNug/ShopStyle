@@ -54,6 +54,168 @@
         </div>
     </div>
 
+    <!-- Advanced Filter Sidebar -->
+    <div class="filter-sidebar" id="filter-sidebar">
+        <div class="filter-header">
+            <h3>Filter Products</h3>
+            <button class="close-filter" id="close-filter-btn"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <div class="filter-section">
+            <h4>Price Range</h4>
+            <div class="price-range">
+                <div class="price-inputs">
+                    <div class="price-input">
+                        <label for="min-price">Min</label>
+                        <input type="number" id="min-price" min="0" placeholder="0">
+                    </div>
+                    <div class="price-input">
+                        <label for="max-price">Max</label>
+                        <input type="number" id="max-price" min="0" placeholder="1000">
+                    </div>
+                </div>
+                <div class="slider-container">
+                    <div class="price-slider" id="price-slider"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="filter-section">
+            <h4>Categories</h4>
+            <div class="filter-options">
+                <div class="filter-option">
+                    <input type="checkbox" id="category-clothes" value="clothes">
+                    <label for="category-clothes">Clothes</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="category-shoes" value="shoes">
+                    <label for="category-shoes">Shoes</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="category-accessories" value="accessories">
+                    <label for="category-accessories">Accessories</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="category-bags" value="bags">
+                    <label for="category-bags">Bags</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="filter-section">
+            <h4>Brand</h4>
+            <div class="filter-options">
+                <div class="filter-option">
+                    <input type="checkbox" id="brand-nike" value="nike">
+                    <label for="brand-nike">Nike</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="brand-adidas" value="adidas">
+                    <label for="brand-adidas">Adidas</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="brand-puma" value="puma">
+                    <label for="brand-puma">Puma</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="brand-reebok" value="reebok">
+                    <label for="brand-reebok">Reebok</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="brand-newbalance" value="newbalance">
+                    <label for="brand-newbalance">New Balance</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="filter-section">
+            <h4>Size</h4>
+            <div class="filter-options size-options">
+                <div class="size-option">
+                    <input type="checkbox" id="size-xs" value="XS">
+                    <label for="size-xs">XS</label>
+                </div>
+                <div class="size-option">
+                    <input type="checkbox" id="size-s" value="S">
+                    <label for="size-s">S</label>
+                </div>
+                <div class="size-option">
+                    <input type="checkbox" id="size-m" value="M">
+                    <label for="size-m">M</label>
+                </div>
+                <div class="size-option">
+                    <input type="checkbox" id="size-l" value="L">
+                    <label for="size-l">L</label>
+                </div>
+                <div class="size-option">
+                    <input type="checkbox" id="size-xl" value="XL">
+                    <label for="size-xl">XL</label>
+                </div>
+                <div class="size-option">
+                    <input type="checkbox" id="size-xxl" value="XXL">
+                    <label for="size-xxl">XXL</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="filter-section">
+            <h4>Color</h4>
+            <div class="filter-options color-options">
+                <div class="color-option">
+                    <input type="checkbox" id="color-black" value="black">
+                    <label for="color-black" style="background-color: #000;"></label>
+                </div>
+                <div class="color-option">
+                    <input type="checkbox" id="color-white" value="white">
+                    <label for="color-white" style="background-color: #fff; border: 1px solid #ddd;"></label>
+                </div>
+                <div class="color-option">
+                    <input type="checkbox" id="color-red" value="red">
+                    <label for="color-red" style="background-color: #e74c3c;"></label>
+                </div>
+                <div class="color-option">
+                    <input type="checkbox" id="color-blue" value="blue">
+                    <label for="color-blue" style="background-color: #3498db;"></label>
+                </div>
+                <div class="color-option">
+                    <input type="checkbox" id="color-green" value="green">
+                    <label for="color-green" style="background-color: #2ecc71;"></label>
+                </div>
+                <div class="color-option">
+                    <input type="checkbox" id="color-yellow" value="yellow">
+                    <label for="color-yellow" style="background-color: #f1c40f;"></label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="filter-section">
+            <h4>Rating</h4>
+            <div class="filter-options">
+                <div class="filter-option">
+                    <input type="radio" name="rating" id="rating-all" value="all" checked>
+                    <label for="rating-all">All Ratings</label>
+                </div>
+                <div class="filter-option">
+                    <input type="radio" name="rating" id="rating-4plus" value="4">
+                    <label for="rating-4plus">4 <i class="fas fa-star"></i> & above</label>
+                </div>
+                <div class="filter-option">
+                    <input type="radio" name="rating" id="rating-3plus" value="3">
+                    <label for="rating-3plus">3 <i class="fas fa-star"></i> & above</label>
+                </div>
+                <div class="filter-option">
+                    <input type="radio" name="rating" id="rating-2plus" value="2">
+                    <label for="rating-2plus">2 <i class="fas fa-star"></i> & above</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="filter-actions">
+            <button id="apply-filters-btn" class="primary-btn">Apply Filters</button>
+            <button id="reset-filters-btn" class="secondary-btn">Reset</button>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="../scripts/cart.js"></script>
     <script src="../scripts/product.js"></script>
