@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wishlist - ShopStyle</title>
+    <!-- Add Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Add Poppins font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/navbar.css">
+    <link rel="stylesheet" href="../styles/footer.css">
+    <link rel="stylesheet" href="../styles/wishlist.css">
+</head>
+<body class="wishlist-page">
+    <div id="navbar-container"></div>
+
+    <main class="wishlist-container">
+        <h1 class="wishlist-title">My Wishlist</h1>
+        
+        <div class="wishlist-content">
+            <div class="wishlist-items" id="wishlist-items">
+                <!-- Wishlist items will be dynamically loaded here -->
+                <div class="empty-wishlist">
+                    <i class="far fa-heart"></i>
+                    <p>Your wishlist is empty</p>
+                    <a href="products.html" class="primary-btn">Continue Shopping</a>
+                </div>
+            </div>
+            
+            <div class="recently-viewed">
+                <h2>Recently Viewed</h2>
+                <div class="product-grid" id="recently-viewed-products">
+                    <!-- Recently viewed products will be dynamically loaded here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="../scripts/cart.js"></script>
+    <script src="../scripts/wishlist.js"></script>
+    <script>
+        // Load navbar
+        fetch('../components/navbar/navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-container').innerHTML = data;
+                
+                const navbarScript = document.createElement('script');
+                navbarScript.src = '../scripts/navbar.js';
+                document.body.appendChild(navbarScript);
+            });
+
+        // Load footer
+        fetch('../components/footer/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-container').innerHTML = data;
+            });
+    </script>
+</body>
+</html>
