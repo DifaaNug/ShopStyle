@@ -1,0 +1,78 @@
+/* Notifications */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: -300px;
+    width: 280px;
+    background-color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 15px;
+    z-index: 9999;
+    transition: right 0.3s ease;
+    opacity: 0;
+}
+
+.notification.show {
+    right: 20px;
+    opacity: 1;
+}
+
+.notification.success {
+    border-left: 4px solid #4CAF50;
+}
+
+.notification.error {
+    border-left: 4px solid #F44336;
+}
+
+.notification.info {
+    border-left: 4px solid #2196F3;
+}
+
+.notification.warning {
+    border-left: 4px solid #FF9800;
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #333;
+}
+
+.notification.success .notification-content::before {
+    content: '\f058';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    color: #4CAF50;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.notification.error .notification-content::before {
+    content: '\f057';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    color: #F44336;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.notification.info .notification-content::before {
+    content: '\f05a';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    color: #2196F3;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.notification.warning .notification-content::before {
+    content: '\f06a';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    color: #FF9800;
+    margin-right: 10px;
+    font-size: 18px;
+}
