@@ -79,7 +79,9 @@
     gap: 1.5rem;
 }
 
-.cart-button {
+.cart-button,
+.wishlist-button,
+.account-button {
     position: relative;
     background: none;
     border: none;
