@@ -26,26 +26,53 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Function to load user data
 function loadUserData() {
-    // In a real application, this would fetch user data from the server
-    // For this demo, we'll use mock data
-    const userData = {
-        firstName: 'John',
-        lastName: 'Doe',
-        displayName: 'John Doe',
-        email: 'johndoe@example.com',
-        avatar: '../assets/user-placeholder.jpg'
-    };
+    // Check if user is logged in by checking for token in localStorage
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+        // Redirect to login page if no token found
+        window.location.href = '../pages/login.html';
+        return;
+    }
     
-    // Update UI with user data
-    document.getElementById('user-name').textContent = userData.displayName;
-    document.getElementById('user-email').textContent = userData.email;
-    document.getElementById('dashboard-name').textContent = userData.firstName;
-    document.getElementById('dashboard-name2').textContent = userData.firstName;
+    // Get user data from localStorage or fetch from server
+    const storedUserName = localStorage.getItem('userName');
+    const storedUserEmail = localStorage.getItem('userEmail');
     
-    // Update avatar
-    const avatarImg = document.getElementById('user-avatar');
-    if (avatarImg && userData.avatar) {
-        avatarImg.src = userData.avatar;
+    // If we have user data in localStorage
+    if (storedUserName) {
+        // Extract first name and last name
+        const nameParts = storedUserName.split(' ');
+        const firstName = nameParts[0];
+        const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+        
+        const userData = {
+            firstName: firstName,
+            lastName: lastName,
+            displayName: storedUserName,
+            email: storedUserEmail || 'user@example.com',
+            avatar: '../assets/user-placeholder.jpg'
+        };
+        
+        // Update UI with user data
+        document.getElementById('user-name').textContent = userData.displayName;
+        document.getElementById('user-email').textContent = userData.email;
+        document.getElementById('dashboard-name').textContent = userData.firstName;
+        document.getElementById('dashboard-name2').textContent = userData.firstName;
+        
+        // Update avatar
+        const avatarImg = document.getElementById('user-avatar');
+        if (avatarImg && userData.avatar) {
+            avatarImg.src = userData.avatar;
+        }
+        
+        // Update profile form
+        document.getElementById('first-name').value = userData.firstName;
+        document.getElementById('last-name').value = userData.lastName;
+        document.getElementById('display-name').value = userData.displayName;
+        document.getElementById('email').value = userData.email;
+    } else {
+        // Try to fetch user data from API with token
+        fetchUserData(token);
     }
     
     // Update profile form
@@ -53,6 +80,57 @@ function loadUserData() {
     document.getElementById('last-name').value = userData.lastName;
     document.getElementById('display-name').value = userData.displayName;
     document.getElementById('email').value = userData.email;
+}
+
+// Function to fetch user data from API
+async function fetchUserData(token) {
+    try {
+        const response = await fetch('/api/users/me', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (!response.ok) {
+            // If unauthorized, redirect to login
+            if (response.status === 401) {
+                localStorage.removeItem('accessToken');
+                window.location.href = '../pages/login.html';
+                return;
+            }
+            throw new Error('Failed to fetch user data');
+        }
+        
+        const userData = await response.json();
+        
+        // Store user data in localStorage for future use
+        localStorage.setItem('userName', userData.name || 'User');
+        localStorage.setItem('userEmail', userData.email);
+        
+        // Extract first name for display
+        const firstName = userData.name ? userData.name.split(' ')[0] : 'User';
+        
+        // Update UI with user data
+        document.getElementById('user-name').textContent = userData.name || 'User';
+        document.getElementById('user-email').textContent = userData.email;
+        document.getElementById('dashboard-name').textContent = firstName;
+        document.getElementById('dashboard-name2').textContent = firstName;
+        
+        // Update profile form
+        if (userData.name) {
+            const nameParts = userData.name.split(' ');
+            document.getElementById('first-name').value = nameParts[0];
+            document.getElementById('last-name').value = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+            document.getElementById('display-name').value = userData.name;
+        }
+        document.getElementById('email').value = userData.email;
+        
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        showNotification('Failed to load user data', 'error');
+    }
 }
 
 // Function to set up account navigation
@@ -97,31 +175,19 @@ function loadDashboardContent() {
     const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
     document.getElementById('wishlist-count').textContent = wishlist.length;
     
-    // In a real application, these would be fetched from the server
-    document.getElementById('order-count').textContent = '3';
+    // Get orders from localStorage
+    const orders = JSON.parse(localStorage.getItem('orders')) || [];
+    document.getElementById('order-count').textContent = orders.length.toString();
+    
+    // For addresses, we'll keep the placeholder value for now
     document.getElementById('address-count').textContent = '2';
     
-    // Load recent orders
-    const recentOrders = [
-        {
-            id: 'ORD-12345',
-            date: '2025-05-18',
-            status: 'processing',
-            total: 125.99
-        },
-        {
-            id: 'ORD-12344',
-            date: '2025-05-10',
-            status: 'shipped',
-            total: 89.50
-        },
-        {
-            id: 'ORD-12343',
-            date: '2025-05-01',
-            status: 'delivered',
-            total: 210.75
-        }
-    ];
+    // Display the most recent 3 orders
+    const recentOrders = [...orders].sort((a, b) => {
+        const dateA = new Date(a.orderDate || a.date);
+        const dateB = new Date(b.orderDate || b.date);
+        return dateB - dateA;
+    }).slice(0, 3);
     
     const recentOrdersTable = document.getElementById('recent-orders-table');
     
@@ -131,12 +197,12 @@ function loadDashboardContent() {
         recentOrders.forEach(order => {
             recentOrdersTable.innerHTML += `
                 <tr>
-                    <td class="order-number">${order.id}</td>
-                    <td>${formatDate(order.date)}</td>
+                    <td class="order-number">${order.orderId || order.id}</td>
+                    <td>${formatDate(order.orderDate || order.date)}</td>
                     <td><span class="order-status status-${order.status}">${capitalizeFirstLetter(order.status)}</span></td>
-                    <td>$${order.total.toFixed(2)}</td>
+                    <td>$${parseFloat(order.total).toFixed(2)}</td>
                     <td class="order-actions">
-                        <button class="action-btn view-order" data-order="${order.id}">View</button>
+                        <button class="action-btn view-order" data-order="${order.orderId || order.id}">View</button>
                     </td>
                 </tr>
             `;
@@ -144,32 +210,56 @@ function loadDashboardContent() {
         
         // Set up view order buttons
         setupOrderViewButtons();
+    } else {
+        recentOrdersTable.innerHTML = '<tr><td colspan="5">No orders yet</td></tr>';
     }
 }
 
 // Function to load orders content
 function loadOrdersContent() {
-    // In a real application, these would be fetched from the server
-    const orders = [
+    // Get orders from localStorage
+    const savedOrders = JSON.parse(localStorage.getItem('orders')) || [];
+    
+    // Create some sample orders if none exist
+    let orders = savedOrders.length > 0 ? savedOrders : [
         {
-            id: 'ORD-12345',
-            date: '2025-05-18',
+            orderId: 'ORD-12345',
+            orderDate: '2025-05-18',
             status: 'processing',
-            total: 125.99
+            total: 125.99,
+            items: [
+                { name: 'Blue Denim Jacket', quantity: 1, price: 89.99 },
+                { name: 'Classic White T-Shirt', quantity: 2, price: 18.00 }
+            ]
         },
         {
-            id: 'ORD-12344',
-            date: '2025-05-10',
+            orderId: 'ORD-12344',
+            orderDate: '2025-05-10',
             status: 'shipped',
-            total: 89.50
+            total: 89.50,
+            items: [
+                { name: 'Black Sneakers', quantity: 1, price: 89.50 }
+            ]
         },
         {
-            id: 'ORD-12343',
-            date: '2025-05-01',
+            orderId: 'ORD-12343',
+            orderDate: '2025-05-01',
             status: 'delivered',
-            total: 210.75
+            total: 210.75,
+            items: [
+                { name: 'Designer Sunglasses', quantity: 1, price: 150.00 },
+                { name: 'Leather Wallet', quantity: 1, price: 60.75 }
+            ]
         }
     ];
+    
+    // If we created sample orders, save them to localStorage
+    if (savedOrders.length === 0) {
+        localStorage.setItem('orders', JSON.stringify(orders));
+    }
+    
+    // Update order count in dashboard
+    document.getElementById('order-count').textContent = orders.length;
     
     const ordersTable = document.getElementById('orders-table');
     
@@ -179,12 +269,12 @@ function loadOrdersContent() {
         orders.forEach(order => {
             ordersTable.innerHTML += `
                 <tr>
-                    <td class="order-number">${order.id}</td>
-                    <td>${formatDate(order.date)}</td>
+                    <td class="order-number">${order.orderId || order.id}</td>
+                    <td>${formatDate(order.orderDate || order.date)}</td>
                     <td><span class="order-status status-${order.status}">${capitalizeFirstLetter(order.status)}</span></td>
-                    <td>$${order.total.toFixed(2)}</td>
+                    <td>$${parseFloat(order.total).toFixed(2)}</td>
                     <td class="order-actions">
-                        <button class="action-btn view-order" data-order="${order.id}">View</button>
+                        <button class="action-btn view-order" data-order="${order.orderId || order.id}">View</button>
                     </td>
                 </tr>
             `;
@@ -192,6 +282,8 @@ function loadOrdersContent() {
         
         // Set up view order buttons
         setupOrderViewButtons();
+    } else {
+        ordersTable.innerHTML = '<tr><td colspan="5">No orders found</td></tr>';
     }
     
     // Set up order filter
@@ -546,9 +638,113 @@ function setupOrderViewButtons() {
 
 // Function to view order
 function viewOrder(orderId) {
-    // In a real application, this would navigate to order detail page
-    // or open a modal with order details
-    showNotification(`Viewing order ${orderId}`, 'info');
+    // Get orders from localStorage
+    const orders = JSON.parse(localStorage.getItem('orders')) || [];
+    
+    // Find the specific order
+    const order = orders.find(o => (o.orderId || o.id) === orderId);
+    
+    if (!order) {
+        showNotification(`Order not found: ${orderId}`, 'error');
+        return;
+    }
+    
+    // Create modal for order details
+    const orderModal = document.createElement('div');
+    orderModal.className = 'modal order-detail-modal';
+    orderModal.style.display = 'block';
+    
+    // Calculate items total
+    const itemsTotal = order.items ? order.items.reduce((sum, item) => 
+        sum + (item.price * (item.quantity || 1)), 0) : order.total;
+    
+    // Prepare items HTML
+    const itemsHtml = order.items ? order.items.map(item => `
+        <div class="order-detail-item">
+            <div class="item-info">
+                <span class="item-name">${item.name}</span>
+                <span class="item-quantity">x ${item.quantity || 1}</span>
+            </div>
+            <span class="item-price">$${(item.price * (item.quantity || 1)).toFixed(2)}</span>
+        </div>
+    `).join('') : '<p>No item details available</p>';
+    
+    // Create modal content
+    orderModal.innerHTML = `
+        <div class="modal-content order-detail-content">
+            <span class="close-modal">&times;</span>
+            <div class="order-detail-header">
+                <h2>Order Details</h2>
+                <span class="order-id">${order.orderId || order.id}</span>
+                <span class="order-date">${formatDate(order.orderDate || order.date)}</span>
+                <div class="order-status-badge status-${order.status}">${capitalizeFirstLetter(order.status)}</div>
+            </div>
+            
+            <div class="order-detail-body">
+                <div class="order-items">
+                    <h3>Items</h3>
+                    <div class="order-items-list">
+                        ${itemsHtml}
+                    </div>
+                </div>
+                
+                <div class="order-summary">
+                    <h3>Summary</h3>
+                    <div class="order-summary-row">
+                        <span>Subtotal</span>
+                        <span>$${itemsTotal.toFixed(2)}</span>
+                    </div>
+                    <div class="order-summary-row">
+                        <span>Shipping</span>
+                        <span>$${(order.shipping || 10).toFixed(2)}</span>
+                    </div>
+                    <div class="order-summary-row">
+                        <span>Tax</span>
+                        <span>$${(order.tax || (itemsTotal * 0.1)).toFixed(2)}</span>
+                    </div>
+                    <div class="order-summary-row total">
+                        <span>Total</span>
+                        <span>$${parseFloat(order.total).toFixed(2)}</span>
+                    </div>
+                </div>
+                
+                <div class="order-actions-panel">
+                    <button class="primary-btn">Track Order</button>
+                    <button class="secondary-btn">Download Invoice</button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Add modal to body
+    document.body.appendChild(orderModal);
+    
+    // Add close functionality
+    const closeBtn = orderModal.querySelector('.close-modal');
+    closeBtn.addEventListener('click', function() {
+        orderModal.style.display = 'none';
+        // Remove modal after fade out
+        setTimeout(() => {
+            document.body.removeChild(orderModal);
+        }, 300);
+    });
+    
+    // Close on outside click
+    window.addEventListener('click', function(event) {
+        if (event.target === orderModal) {
+            orderModal.style.display = 'none';
+            // Remove modal after fade out
+            setTimeout(() => {
+                document.body.removeChild(orderModal);
+            }, 300);
+        }
+    });
+    
+    // Add some simple animation
+    setTimeout(() => {
+        orderModal.querySelector('.modal-content').style.opacity = '1';
+        orderModal.querySelector('.modal-content').style.transform = 'translateY(0)';
+    }, 10);
 }
 
 // Function to setup address modal
