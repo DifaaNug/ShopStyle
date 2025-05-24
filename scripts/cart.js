@@ -102,6 +102,12 @@ function updateCartDisplay() {
     
     // Update cart sidebar if present
     updateCartSidebar();
+    
+    // Update cart modal if necessary
+    if (cartModal && cartModal.classList.contains('active')) {
+        createCartModal();
+        cartModal.classList.add('active');
+    }
 }
 
 // Update cart sidebar contents
