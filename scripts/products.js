@@ -304,8 +304,7 @@ function setupQuickViewEvents(modal, product) {
             quantityInput.value = currentValue + 1;
         }
     });
-    
-    // Add to cart button
+      // Add to cart button
     const addToCartBtn = modal.querySelector('.add-to-cart-btn');
     addToCartBtn.addEventListener('click', () => {
         const quantity = parseInt(quantityInput.value);
@@ -327,37 +326,54 @@ function closeQuickView(modal) {
 
 // Function to add product to cart
 function addToCart(productId, quantity) {
-    // Get current cart
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    
-    // Check if product already exists in cart
-    const existingItem = cart.find(item => item.id === productId);
-    
-    if (existingItem) {
-        // Update quantity
-        existingItem.quantity += quantity;
-    } else {
-        // Add new item
-        cart.push({
-            id: productId,
-            quantity: quantity
+    // Get product details from API
+    fetch(`/api/products/${productId}`)
+        .then(response => response.json())
+        .then(product => {
+            // Get current cart
+            const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+            
+            // Check if product already exists in cart
+            const existingItem = cartItems.find(item => item.id === product.id);
+            
+            if (existingItem) {
+                // Update quantity
+                existingItem.quantity = (existingItem.quantity || 1) + quantity;
+            } else {
+                // Add new item
+                cartItems.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.imageUrl,
+                    quantity: quantity
+                });
+            }
+            
+            // Save updated cart
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            
+            // Update cart count in navbar
+            updateCartCount();
+            
+            // Show notification
+            showNotification('Product added to cart!', 'success');
+            
+            // Update cart modal if it's active
+            if (window.updateCartDisplay) {
+                window.updateCartDisplay();
+            }
+        })
+        .catch(error => {
+            console.error('Error adding product to cart:', error);
+            showNotification('Failed to add product to cart', 'error');
         });
-    }
-    
-    // Save updated cart
-    localStorage.setItem('cart', JSON.stringify(cart));
-    
-    // Update cart count in navbar
-    updateCartCount();
-    
-    // Show notification
-    showNotification('Product added to cart!', 'success');
 }
 
 // Function to update cart count in navbar
 function updateCartCount() {
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+    const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+    const cartCount = cartItems.reduce((total, item) => total + (item.quantity || 1), 0);
     
     const cartCountElement = document.querySelector('.cart-count');
     if (cartCountElement) {
