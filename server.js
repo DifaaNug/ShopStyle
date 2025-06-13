@@ -118,6 +118,53 @@ const users = [
   }
 ];
 
+// Array untuk menyimpan pesanan
+const orders = [
+  {
+    orderId: 'ORD-ABC123-789012',
+    email: 'difanugrahacoba@gmail.com',
+    fullname: 'Difa Nugraha',
+    address: 'Jalan Contoh No. 123, Jakarta',
+    items: [
+      {
+        name: 'Classic Blue T-Shirt',
+        quantity: 2,
+        price: 19.99
+      },
+      {
+        name: 'Leather Wallet',
+        quantity: 1,
+        price: 24.99
+      }
+    ],
+    subtotal: 64.97,
+    shipping: 5.99,
+    tax: 7.10,
+    total: 78.06,
+    status: 'Processing',
+    date: new Date().toISOString()
+  },
+  {
+    orderId: 'ORD-XYZ456-456789',
+    email: 'test@example.com',
+    fullname: 'Test User',
+    address: '123 Test Street, Test City',
+    items: [
+      {
+        name: 'Elegant Black Dress',
+        quantity: 1,
+        price: 49.99
+      }
+    ],
+    subtotal: 49.99,
+    shipping: 5.99,
+    tax: 5.60,
+    total: 61.58,
+    status: 'Shipped',
+    date: new Date().toISOString()
+  }
+];
+
 // Demo product data
 const products = [
   {
@@ -472,6 +519,44 @@ app.delete('/api/cart', authenticateToken, (req, res) => {
   res.json({ message: 'Cart cleared', cart: [] });
 });
 
+// GET all orders - public endpoint for demo purposes
+app.get('/api/orders', (req, res) => {
+  res.json(orders);
+});
+
+// GET specific order by ID
+app.get('/api/orders/:orderId', (req, res) => {
+  const orderId = req.params.orderId;
+  const order = orders.find(o => o.orderId === orderId);
+  
+  if (!order) {
+    return res.status(404).json({ message: 'Order not found' });
+  }
+  
+  res.json(order);
+});
+
+// GET orders by email - untuk mencari pesanan berdasarkan email
+app.get('/api/orders-by-email/:email', (req, res) => {
+  const email = req.params.email;
+  console.log(`Searching for orders with email: ${email}`);
+  
+  // Decode email parameter if it's encoded
+  const decodedEmail = decodeURIComponent(email);
+  console.log(`Decoded email: ${decodedEmail}`);
+  
+  // Debug log all orders and their emails for comparison
+  orders.forEach(order => {
+    console.log(`Order ${order.orderId}, email: ${order.email}`);
+  });
+  
+  // Find orders that match this email
+  const userOrders = orders.filter(o => o.email === decodedEmail);
+  console.log(`Found ${userOrders.length} orders for ${decodedEmail}`);
+  
+  res.json(userOrders);
+});
+
 // Profile endpoint - get user profile
 app.get('/api/profile', authenticateToken, (req, res) => {
   const userId = req.user.id;
@@ -608,9 +693,20 @@ app.post('/api/place-order', async (req, res) => {
     const orderData = {
       orderId: `ORD-${Math.random().toString(36).substr(2, 6).toUpperCase()}-${Date.now().toString().substr(-6)}`,
       email: req.body.email,
+      fullname: req.body.fullname,
+      address: req.body.address,
       items: req.body.items,
-      total: req.body.total
+      subtotal: req.body.subtotal,
+      shipping: req.body.shipping,
+      tax: req.body.tax,
+      total: req.body.total,
+      status: 'Processing',
+      date: new Date().toISOString()
     };
+
+    // Menyimpan pesanan ke array orders
+    orders.push(orderData);
+    console.log('Order saved:', orderData.orderId);
 
     // Send confirmation email
     const emailSent = await sendOrderConfirmationEmail(orderData);
@@ -635,3 +731,6 @@ app.post('/api/place-order', async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Export orders array for testing purposes
+module.exports = { orders };
