@@ -228,11 +228,14 @@ function setupCheckoutForm() {
             });
             
             const result = await response.json();
-            console.log('Server response:', result);
-            
-            if (result.success) {
+            console.log('Server response:', result);                    if (result.success) {
                 // Clear cart
                 localStorage.removeItem('cartItems');
+                
+                // Save user email for future reference if not already saved
+                if (!localStorage.getItem('userEmail')) {
+                    localStorage.setItem('userEmail', email);
+                }
                 
                 // Show success message
                 const orderNumberEl = document.getElementById('order-number');
