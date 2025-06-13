@@ -170,24 +170,36 @@ function setupAccountNavigation() {
 }
 
 // Function to load dashboard content
-function loadDashboardContent() {
+async function loadDashboardContent() {
     // Load counts
     const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
     document.getElementById('wishlist-count').textContent = wishlist.length;
     
-    // Get orders from localStorage
-    const orders = JSON.parse(localStorage.getItem('orders')) || [];
-    document.getElementById('order-count').textContent = orders.length.toString();
-    
-    // For addresses, we'll keep the placeholder value for now
-    document.getElementById('address-count').textContent = '2';
-    
-    // Display the most recent 3 orders
-    const recentOrders = [...orders].sort((a, b) => {
-        const dateA = new Date(a.orderDate || a.date);
-        const dateB = new Date(b.orderDate || b.date);
-        return dateB - dateA;
-    }).slice(0, 3);
+    try {
+        // Fetch orders from API instead of localStorage
+        const userEmail = localStorage.getItem('userEmail');
+        if (!userEmail) {
+            document.getElementById('order-count').textContent = '0';
+            return;
+        }
+        
+        const response = await fetch(`/api/orders-by-email/${userEmail}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch orders');
+        }
+        
+        const orders = await response.json();
+        document.getElementById('order-count').textContent = orders.length.toString();
+        
+        // For addresses, we'll keep the placeholder value for now
+        document.getElementById('address-count').textContent = '2';
+        
+        // Display the most recent 3 orders
+        const recentOrders = [...orders].sort((a, b) => {
+            const dateA = new Date(a.orderDate || a.date);
+            const dateB = new Date(b.orderDate || b.date);
+            return dateB - dateA;
+        }).slice(0, 3);
     
     const recentOrdersTable = document.getElementById('recent-orders-table');
     
@@ -216,47 +228,24 @@ function loadDashboardContent() {
 }
 
 // Function to load orders content
-function loadOrdersContent() {
-    // Get orders from localStorage
-    const savedOrders = JSON.parse(localStorage.getItem('orders')) || [];
-    
-    // Create some sample orders if none exist
-    let orders = savedOrders.length > 0 ? savedOrders : [
-        {
-            orderId: 'ORD-12345',
-            orderDate: '2025-05-18',
-            status: 'processing',
-            total: 125.99,
-            items: [
-                { name: 'Blue Denim Jacket', quantity: 1, price: 89.99 },
-                { name: 'Classic White T-Shirt', quantity: 2, price: 18.00 }
-            ]
-        },
-        {
-            orderId: 'ORD-12344',
-            orderDate: '2025-05-10',
-            status: 'shipped',
-            total: 89.50,
-            items: [
-                { name: 'Black Sneakers', quantity: 1, price: 89.50 }
-            ]
-        },
-        {
-            orderId: 'ORD-12343',
-            orderDate: '2025-05-01',
-            status: 'delivered',
-            total: 210.75,
-            items: [
-                { name: 'Designer Sunglasses', quantity: 1, price: 150.00 },
-                { name: 'Leather Wallet', quantity: 1, price: 60.75 }
-            ]
+async function loadOrdersContent() {
+    try {
+        // Fetch orders from API instead of localStorage
+        const userEmail = localStorage.getItem('userEmail');
+        if (!userEmail) {
+            document.getElementById('orders-table').innerHTML = '<tr><td colspan="5">No orders found</td></tr>';
+            return;
         }
-    ];
-    
-    // If we created sample orders, save them to localStorage
-    if (savedOrders.length === 0) {
-        localStorage.setItem('orders', JSON.stringify(orders));
-    }
+        
+        // Show loading indicator
+        document.getElementById('orders-table').innerHTML = '<tr><td colspan="5">Loading orders...</td></tr>';
+        
+        const response = await fetch(`/api/orders-by-email/${userEmail}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch orders');
+        }
+        
+        const orders = await response.json();
     
     // Update order count in dashboard
     document.getElementById('order-count').textContent = orders.length;
@@ -637,12 +626,15 @@ function setupOrderViewButtons() {
 }
 
 // Function to view order
-function viewOrder(orderId) {
-    // Get orders from localStorage
-    const orders = JSON.parse(localStorage.getItem('orders')) || [];
-    
-    // Find the specific order
-    const order = orders.find(o => (o.orderId || o.id) === orderId);
+async function viewOrder(orderId) {
+    try {
+        // Fetch order details from API instead of localStorage
+        const response = await fetch(`/api/orders/${orderId}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch order details');
+        }
+        
+        const order = await response.json();
     
     if (!order) {
         showNotification(`Order not found: ${orderId}`, 'error');
