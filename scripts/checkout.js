@@ -197,8 +197,7 @@ function setupCheckoutForm() {
         const shipping = 10;
         const tax = subtotal * 0.1;
         const total = subtotal + shipping + tax;
-        
-        // Prepare order data
+          // Prepare order data
         const orderData = {
             email: email,
             fullname: fullname,
@@ -208,7 +207,9 @@ function setupCheckoutForm() {
             subtotal: subtotal,
             shipping: shipping,
             tax: tax,
-            total: total
+            total: total,
+            status: 'Processing',
+            date: new Date().toISOString()
         };
         
         console.log('Sending order data:', orderData);
