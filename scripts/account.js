@@ -929,12 +929,26 @@ function logoutUser() {
     // In a real application, this would send a request to the server
     // and/or clear session cookies
     
+    // Simpan cart items sementara
+    const cartItems = localStorage.getItem('cartItems');
+    
+    // Hapus token dan data pengguna tapi pertahankan cartItems
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('userEmail');
+    
+    // Kembalikan cart items
+    if (cartItems) {
+        localStorage.setItem('cartItems', cartItems);
+    }
+    
     // For this demo, we'll just show a notification and redirect
     showNotification('Logging out...', 'info');
     
     setTimeout(() => {
         window.location.href = 'login.html';
     }, 1000);
+}
 }
 
 // Function to add product to cart
