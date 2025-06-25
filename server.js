@@ -545,13 +545,18 @@ app.get('/api/orders-by-email/:email', (req, res) => {
   const decodedEmail = decodeURIComponent(email);
   console.log(`Decoded email: ${decodedEmail}`);
   
-  // Debug log all orders and their emails for comparison
-  orders.forEach(order => {
-    console.log(`Order ${order.orderId}, email: ${order.email}`);
+  // Log all orders for debugging
+  console.log(`Total orders in system: ${orders.length}`);
+  orders.forEach((order, index) => {
+    console.log(`Order #${index} - ID: ${order.orderId}, email: ${order.email}, status: ${order.status}`);
   });
   
   // Find orders that match this email
-  const userOrders = orders.filter(o => o.email === decodedEmail);
+  const userOrders = orders.filter(o => {
+    const match = o.email === decodedEmail;
+    console.log(`Comparing: "${o.email}" with "${decodedEmail}" - Match: ${match}`);
+    return match;
+  });
   console.log(`Found ${userOrders.length} orders for ${decodedEmail}`);
   
   res.json(userOrders);
@@ -690,11 +695,18 @@ async function sendOrderConfirmationEmail(orderData) {
 // Handle order submission and email confirmation
 app.post('/api/place-order', async (req, res) => {
   try {
+    console.log('Received order request:', req.body);
+    
+    // Buat ID order baru yang unik
+    const orderId = `ORD-${Math.random().toString(36).substr(2, 6).toUpperCase()}-${Date.now().toString().substr(-6)}`;
+    
+    // Ambil semua data dari request body
     const orderData = {
-      orderId: `ORD-${Math.random().toString(36).substr(2, 6).toUpperCase()}-${Date.now().toString().substr(-6)}`,
+      orderId: orderId,
       email: req.body.email,
       fullname: req.body.fullname,
       address: req.body.address,
+      phone: req.body.phone || '',
       items: req.body.items,
       subtotal: req.body.subtotal,
       shipping: req.body.shipping,
@@ -707,6 +719,7 @@ app.post('/api/place-order', async (req, res) => {
     // Menyimpan pesanan ke array orders
     orders.push(orderData);
     console.log('Order saved:', orderData.orderId);
+    console.log('Total orders now:', orders.length);
 
     // Send confirmation email
     const emailSent = await sendOrderConfirmationEmail(orderData);
