@@ -50,7 +50,8 @@ function updateAuthUI() {
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('userName');
                 localStorage.removeItem('userEmail');
-                localStorage.removeItem('cartItems');
+                // Tidak menghapus cartItems agar tetap tersimpan saat login kembali
+                // localStorage.removeItem('cartItems');
             } catch (error) {
                 console.error('Error removing from localStorage:', error);
             }
