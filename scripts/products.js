@@ -353,15 +353,21 @@ function addToCart(productId, quantity) {
             // Save updated cart
             localStorage.setItem('cartItems', JSON.stringify(cartItems));
             
+            console.log('Item added to cart:', product.name, 'qty:', quantity);
+            console.log('Current cart items:', cartItems);
+            
             // Update cart count in navbar
             updateCartCount();
             
             // Show notification
             showNotification('Product added to cart!', 'success');
             
-            // Update cart modal if it's active
-            if (window.updateCartDisplay) {
+            // Update cart display using global function
+            if (typeof window.updateCartDisplay === 'function') {
+                console.log('Calling updateCartDisplay');
                 window.updateCartDisplay();
+            } else {
+                console.warn('updateCartDisplay function not available');
             }
         })
         .catch(error => {
