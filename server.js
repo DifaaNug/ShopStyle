@@ -8,6 +8,16 @@ const path = require('path');
 const nodemailer = require('nodemailer');
 
 const app = express();
+
+// Middleware logging
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
+  if (req.method === 'POST' && req.path.includes('place-order')) {
+    console.log('POST request to place-order detected');
+  }
+  next();
+});
+
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -119,51 +129,8 @@ const users = [
 ];
 
 // Array untuk menyimpan pesanan
-const orders = [
-  {
-    orderId: 'ORD-ABC123-789012',
-    email: 'difanugrahacoba@gmail.com',
-    fullname: 'Difa Nugraha',
-    address: 'Jalan Contoh No. 123, Jakarta',
-    items: [
-      {
-        name: 'Classic Blue T-Shirt',
-        quantity: 2,
-        price: 19.99
-      },
-      {
-        name: 'Leather Wallet',
-        quantity: 1,
-        price: 24.99
-      }
-    ],
-    subtotal: 64.97,
-    shipping: 5.99,
-    tax: 7.10,
-    total: 78.06,
-    status: 'Processing',
-    date: new Date().toISOString()
-  },
-  {
-    orderId: 'ORD-XYZ456-456789',
-    email: 'test@example.com',
-    fullname: 'Test User',
-    address: '123 Test Street, Test City',
-    items: [
-      {
-        name: 'Elegant Black Dress',
-        quantity: 1,
-        price: 49.99
-      }
-    ],
-    subtotal: 49.99,
-    shipping: 5.99,
-    tax: 5.60,
-    total: 61.58,
-    status: 'Shipped',
-    date: new Date().toISOString()
-  }
-];
+// Array to store all orders (starts empty, populated by placing orders)
+const orders = [];
 
 // Demo product data
 const products = [
@@ -521,6 +488,9 @@ app.delete('/api/cart', authenticateToken, (req, res) => {
 
 // GET all orders - public endpoint for demo purposes
 app.get('/api/orders', (req, res) => {
+  console.log('=== GET ORDERS REQUEST ===');
+  console.log('Current orders in memory:', orders.length);
+  console.log('Orders:', orders.map(o => ({ id: o.orderId, email: o.email, date: o.date })));
   res.json(orders);
 });
 
@@ -694,11 +664,16 @@ async function sendOrderConfirmationEmail(orderData) {
 
 // Handle order submission and email confirmation
 app.post('/api/place-order', async (req, res) => {
+  console.log('=== PLACE ORDER REQUEST RECEIVED ===');
+  console.log('Request body:', req.body);
+  console.log('Request headers:', req.headers);
+  
   try {
-    console.log('Received order request:', req.body);
+    console.log('Processing order request...');
     
     // Buat ID order baru yang unik
     const orderId = `ORD-${Math.random().toString(36).substr(2, 6).toUpperCase()}-${Date.now().toString().substr(-6)}`;
+    console.log('Generated order ID:', orderId);
     
     // Ambil semua data dari request body
     const orderData = {
@@ -717,10 +692,16 @@ app.post('/api/place-order', async (req, res) => {
     };
 
     // Menyimpan pesanan ke array orders
+    console.log('Saving order to orders array...');
+    console.log('Order data to save:', orderData);
+    
     orders.push(orderData);
-    console.log('Order saved:', orderData.orderId);
-    console.log('Total orders now:', orders.length);
-
+    
+    console.log('=== ORDER SAVED SUCCESSFULLY ===');
+    console.log('Order ID saved:', orderData.orderId);
+    console.log('Total orders in array:', orders.length);
+    console.log('All orders:', orders.map(o => ({ id: o.orderId, email: o.email })));
+    
     // Send confirmation email
     const emailSent = await sendOrderConfirmationEmail(orderData);
 
@@ -743,7 +724,11 @@ app.post('/api/place-order', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  console.log('=== SERVER STARTED ===');
+  console.log('Orders array initialized:', orders.length);
+});
 
 // Export orders array for testing purposes
 module.exports = { orders };
