@@ -74,12 +74,6 @@ function loadUserData() {
         // Try to fetch user data from API with token
         fetchUserData(token);
     }
-    
-    // Update profile form
-    document.getElementById('first-name').value = userData.firstName;
-    document.getElementById('last-name').value = userData.lastName;
-    document.getElementById('display-name').value = userData.displayName;
-    document.getElementById('email').value = userData.email;
 }
 
 // Function to fetch user data from API
@@ -224,6 +218,12 @@ async function loadDashboardContent() {
         setupOrderViewButtons();
     } else {
         recentOrdersTable.innerHTML = '<tr><td colspan="5">No orders yet</td></tr>';
+    }
+    
+    } catch (error) {
+        console.error('Error loading dashboard:', error);
+        document.getElementById('order-count').textContent = '0';
+        document.getElementById('recent-orders-table').innerHTML = '<tr><td colspan="5">Error loading orders</td></tr>';
     }
 }
 
@@ -742,6 +742,11 @@ async function viewOrder(orderId) {
         orderModal.querySelector('.modal-content').style.opacity = '1';
         orderModal.querySelector('.modal-content').style.transform = 'translateY(0)';
     }, 10);
+    
+    } catch (error) {
+        console.error('Error viewing order:', error);
+        showNotification('Error loading order details', 'error');
+    }
 }
 
 // Function to setup address modal
