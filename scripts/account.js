@@ -283,6 +283,11 @@ async function loadOrdersContent() {
         // In a real application, this would filter orders based on status and date
         showNotification('Orders filtered', 'info');
     });
+    
+    } catch (error) {
+        console.error('Error loading orders:', error);
+        document.getElementById('orders-table').innerHTML = '<tr><td colspan="5">Error loading orders</td></tr>';
+    }
 }
 
 // Function to load addresses content
@@ -929,7 +934,7 @@ function logoutUser() {
     // In a real application, this would send a request to the server
     // and/or clear session cookies
     
-    // Simpan cart items sementara
+    // Simpan cart items sementara sebelum logout
     const cartItems = localStorage.getItem('cartItems');
     
     // Hapus token dan data pengguna tapi pertahankan cartItems
@@ -937,7 +942,7 @@ function logoutUser() {
     localStorage.removeItem('userName');
     localStorage.removeItem('userEmail');
     
-    // Kembalikan cart items
+    // Pastikan cart items tetap ada setelah logout
     if (cartItems) {
         localStorage.setItem('cartItems', cartItems);
     }
@@ -948,7 +953,6 @@ function logoutUser() {
     setTimeout(() => {
         window.location.href = 'login.html';
     }, 1000);
-}
 }
 
 // Function to add product to cart
