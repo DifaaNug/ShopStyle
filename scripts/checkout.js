@@ -187,16 +187,25 @@ function setupCheckoutForm() {
     
     // Function untuk submit form
     async function submitCheckoutForm() {
+        console.log('=== Starting checkout process ===');
+        
         const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        console.log('Cart items:', cartItems);
+        
         const email = document.getElementById('email').value;
         const fullname = document.getElementById('fullname').value;
         const phone = document.getElementById('phone').value;
         const address = document.getElementById('address').value;
         
+        console.log('Form data:', { email, fullname, phone, address });
+        
         const subtotal = cartItems.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
         const shipping = 10;
         const tax = subtotal * 0.1;
         const total = subtotal + shipping + tax;
+        
+        console.log('Calculated totals:', { subtotal, shipping, tax, total });
+        
           // Prepare order data
         const orderData = {
             email: email,
@@ -219,6 +228,9 @@ function setupCheckoutForm() {
             placeOrderBtn.disabled = true;
             placeOrderBtn.textContent = 'Processing...';
             
+            console.log('=== Sending order to server ===');
+            console.log('Order data being sent:', orderData);
+            
             // Send order to server
             const response = await fetch('/api/place-order', {
                 method: 'POST',
@@ -228,8 +240,13 @@ function setupCheckoutForm() {
                 body: JSON.stringify(orderData)
             });
             
+            console.log('Response status:', response.status);
+            console.log('Response headers:', response.headers);
+            
             const result = await response.json();
-            console.log('Server response:', result);                    if (result.success) {
+            console.log('Server response:', result);
+            
+            if (result.success) {
                 // Clear cart
                 localStorage.removeItem('cartItems');
                 
@@ -256,7 +273,10 @@ function setupCheckoutForm() {
                 throw new Error(result.message || 'Failed to place order');
             }
         } catch (error) {
-            console.error('Error placing order:', error);
+            console.error('=== Error during checkout ===');
+            console.error('Error details:', error);
+            console.error('Error message:', error.message);
+            console.error('Error stack:', error.stack);
             showError('Failed to place order: ' + error.message);
         } finally {
             // Re-enable the place order button
